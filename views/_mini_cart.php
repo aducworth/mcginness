@@ -31,7 +31,7 @@
 					<tr>
 						<td><?=$item['quantity'] ?></td>
 						<td><?=$product_list[ $item['id'] ] ?> - <a href='/select_cabinet?ajax=true&product=<?=$item['id'] ?>&edit=<?=$index ?>&product_type=<?=$id ?>' class='colorbox'>edit</a></td>
-						<td>$<?=number_format( $item['price'] , 2 ) ?></td>
+						<td>$<?=number_format( ( $item['price'] * $item['quantity'] ), 2 ) ?></td>
 					</tr>
 					
 					<? $total += ( $item['price'] * $item['quantity'] ); ?>
@@ -49,7 +49,7 @@
 		</tr>
 	</table>
 	
-	<a href='/checkout' class='red-button'>Checkout</a>
+	<a href='/cart' class='red-button'>Checkout</a>
 	
 	<script>
 	

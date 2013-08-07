@@ -847,6 +847,25 @@ select.quantity {
 	font-size: 10px;
 }
 
+.cart-contents {
+	width: 100%;
+	margin: 50px 0;
+}
+
+.cart-contents table {
+	width: 100%;
+	font-family: Helvetica;
+}
+
+.cart-contents table th {
+	text-align: left;
+}
+
+.cart-contents table th.last, .cart-contents table td.last {
+	text-align: right;
+}
+
+
 .errors {
 	color: #94130e;
 }

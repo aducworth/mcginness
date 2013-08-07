@@ -158,6 +158,7 @@
 			$('.selected-wood-type').load('/_selected_wood_type?ajax=true');
 			$('.selected-stain-color').load('/_selected_stain_color?ajax=true');
 			$('.side-panel-cart').load('/_mini_cart?ajax=true');
+			$('.cart-contents').load('/_cart_contents?ajax=true');
 		
 		});
 	

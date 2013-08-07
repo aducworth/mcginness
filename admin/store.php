@@ -43,6 +43,18 @@ class Store {
 			$_SESSION['cart'] = array();
 			
 		}
+		
+		$this->db->table = 'colors';
+				
+		$this->color_list = $this->db->retrieve('pair','id,name',' order by display_order, name'); 
+		
+		$this->db->table = 'wood_types';
+			
+		$this->wood_type_list = $this->db->retrieve('pair','id,name',' order by display_order, name'); 
+		
+		$this->db->table = 'profiles';
+			
+		$this->profile_list = $this->db->retrieve('pair','id,name',' order by display_order, name'); 
 			
 	}
 	
@@ -107,11 +119,31 @@ class Store {
 		} else {
 		
 			if( $width && $height && $depth ) {
+			
+				// (w*h)+2(w*d)+2(h*d)= total cabinet box sqft for a lower cabinet
+                // (w*h)+4(w*d)+2(h*d)= total cabinet box sqft for an upper cabinet
+                // (w*h)+6(w*d)+2(h*d)= total cabinet box sqft for a specialty cabinet
+			
+				// if this is a base cabinet
+				if( $product['product_type'] == 1 ) {
 				
-				$volume = ( $width * $height * $depth ) * $cuin_to_cuft;
+					$product_calc = ( ( $width * $height ) * $sqin_to_sqft ) + ( 2 * ( ( $width * $depth ) * $sqin_to_sqft ) ) + ( 2 * ( ( $height * $depth ) * $sqin_to_sqft ) );
+				
+				} elseif( $product['product_type'] == 2 ) {
+				
+					$product_calc = ( ( $width * $height ) * $sqin_to_sqft ) + ( 4 * ( ( $width * $depth ) * $sqin_to_sqft ) ) + ( 2 * ( ( $height * $depth ) * $sqin_to_sqft ) );
+				
+				} elseif( $product['product_type'] == 3 ) {
+				
+					$product_calc = ( ( $width * $height ) * $sqin_to_sqft ) + ( 6 * ( ( $width * $depth ) * $sqin_to_sqft ) ) + ( 2 * ( ( $height * $depth ) * $sqin_to_sqft ) );
+				
+				}
+
+				
+				//$volume = ( $width * $height * $depth ) * $cuin_to_cuft;
 				$front_area = ( $width * $height ) * $sqin_to_sqft;
 				
-				$product_calc = $volume * $product_price;
+				//$product_calc = $volume * $product_price;
 				$wood_calc = $front_area * $wood_price;
 				$stain_calc = $front_area * $stain_price;
 				$profile_calc = $front_area * $stain_price;
