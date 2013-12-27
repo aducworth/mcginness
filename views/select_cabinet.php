@@ -41,20 +41,26 @@
 			
 				$db->table = 'wood_types';
 	
-				$wood_type = $db->retrieve( 'one','*',' where id = ' . $_SESSION['wood-type'] );
+				$wood_type = $db->retrieve( 'one','*',' where id = ' . ($edit_info['wood_type']?$edit_info['wood_type']:$_SESSION['wood-type']) );
 				
 				$db->table = 'colors';
 				
-				$color = $db->retrieve('one','*',' where id = ' . $_SESSION['stain-color'] );
+				$color = $db->retrieve('one','*',' where id = ' . ($edit_info['stain']?$edit_info['stain']:$_SESSION['stain-color']) );
 				
 				$db->table = 'profiles';
 				
-				$profile = $db->retrieve('one','*',' where id = ' . $_SESSION['drawer-and-door'] );
+				$profile = $db->retrieve('one','*',' where id = ' . ($edit_info['profile']?$edit_info['profile']:$_SESSION['drawer-and-door']) );
 
 			?>
 			
 			<input type='hidden' name='id' value='<?=$product['id'] ?>'/>
-			<input type='hidden' name='edit' value='<?=$_GET['edit'] ?>'/>
+			
+			<? if( isset( $_GET['edit'] ) ): ?>
+			
+				<input type='hidden' name='edit' value='<?=$_GET['edit'] ?>'/>
+				
+			<? endif; ?>
+			
 			<input type='hidden' name='product_price' class='product-price' value='<?=$product['price'] ?>'/>
 			<input type='hidden' name='wood_type' value='<?=$wood_type['id'] ?>'/>
 			<input type='hidden' name='wood_price' class='wood-price' value='<?=$wood_type['price'] ?>'/>
@@ -257,7 +263,7 @@
 			
 			<div class='calculated-price'>
 			
-				Price: <span class='price'>$0.00</span>
+				Unit Price: <span class='price'>$0.00</span>
 				
 				<span class='details'>* Enter dimensions to calculate pricing</span>
 			
@@ -553,7 +559,9 @@
 				  data: postData,
 				  type: "POST"
 				}).done(function(data) {
-				  $.fn.colorbox.close();
+				
+					//alert( data );
+				    $.fn.colorbox.close();
 				});
 			
 			}

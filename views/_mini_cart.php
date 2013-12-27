@@ -30,7 +30,7 @@
 				
 					<tr>
 						<td><?=$item['quantity'] ?></td>
-						<td><?=$product_list[ $item['id'] ] ?> - <a href='/select_cabinet?ajax=true&product=<?=$item['id'] ?>&edit=<?=$index ?>&product_type=<?=$id ?>' class='colorbox'>edit</a></td>
+						<td><?=$product_list[ $item['id'] ] ?> - <a href='/select_cabinet?ajax=true&product=<?=$item['id'] ?>&edit=<?=$index ?>&product_type=<?=$id ?>' class='colorbox'>edit</a> ( <a href='/_remove_from_cart?ajax=true&remove=<?=$index ?>&product_type=<?=$id ?>' class='remove-from-cart'>X</a> )</td>
 						<td>$<?=number_format( ( $item['price'] * $item['quantity'] ), 2 ) ?></td>
 					</tr>
 					
@@ -56,6 +56,27 @@
 		$(document).ready(function(){
 		
 			$(".colorbox").colorbox();
+			
+			$('.remove-from-cart').click(function(e) {
+				
+				e.preventDefault();
+				
+				$.ajax({
+				  url: $(this).attr('href'),
+				  type: "POST"
+				}).done(function(data) {
+				
+				    $.ajax({
+					  url: '/_mini_cart?ajax=true',
+					  type: "POST"
+					}).done(function(data) {
+					  $('.side-panel-cart').html( data );
+					});
+				});
+				
+				//alert( $(this).attr('href') );
+				
+			});
 		
 		});
 		

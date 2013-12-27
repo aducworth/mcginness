@@ -48,7 +48,9 @@
 								
 							<? endif; ?>
 							
-							<p><? //print_r( $item ) ?>
+							<p><? print_r( $item ) ?></p>
+							
+							
 						</td>
 						<td><?=$item['quantity'] ?></td>
 						<td>$<?=number_format( $item['price'] , 2 ) ?></td>
