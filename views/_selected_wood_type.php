@@ -19,7 +19,7 @@
 		?>	
 
 	
-		<img src='/images/wood-grain-1.jpg' class='circle-option'/>
+		<div class='swatch' style="background: url('<?=$wood_type['image']?('/images/uploads/thumbnails/'.$wood_type['image']):'/images/wood-grain-1.jpg' ?>');"></div>
 		
 		<p><?=$wood_type['name'] ?></p>
 		

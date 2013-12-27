@@ -473,6 +473,15 @@ section.home-steps a:hover {
 	color: #056843;
 }
 
+.side-panel a.red-button {
+	font-family: trajan-pro-3;
+	font-size: 14px;
+	color: #fff;
+	padding: 10px;
+	margin: 10px 0 0 0;
+	display: block;
+}
+
 .side-panel-cart {
 	float: left;
 	margin: 20px 2.5%;
@@ -489,6 +498,14 @@ section.home-steps a:hover {
 .side-panel-cart table {
 	width: 100%;
 	font-family: Helvetica;
+}
+
+.side-panel .swatch {
+	height: 85px;
+	width: 85px;
+	margin: 10px auto;
+	border-radius: 80px;
+	border: 1px #000 solid;
 }
 
 .option-selector {
@@ -593,6 +610,7 @@ section.home-steps a:hover {
 	margin: auto;
 	background-size: cover;
 	background-repeat: no-repeat;
+	border: 1px #000 solid;
 }
 
 .option-selector ul li a img.circle-option {

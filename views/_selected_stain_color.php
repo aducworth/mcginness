@@ -17,8 +17,8 @@
 			$color = $db->retrieve('one','*',' where id = ' . $_SESSION['stain-color'] );
 			
 		?>	
-	
-		<img src='/images/wood-grain-1.jpg' class='circle-option'/>
+		
+		<div class='swatch' style='<?=$color['image']?('background-image: url(/images/uploads/thumbnails/'.$color['image'].');'):('background-color: ' . $color['hex_index']) ?>'></div>
 		
 		<p><?=$color['name'] ?></p>
 		
