@@ -36,12 +36,12 @@ a.cboxElement {outline:0;}
         #cboxTitle{position:absolute; bottom:4px; left:0; text-align:center; width:100%; color:#949494;}
         #cboxCurrent{position:absolute; bottom:4px; left:58px; color:#949494;}
         #cboxSlideshow{position:absolute; bottom:4px; right:30px; color:#0092ef;}
-        #cboxPrevious{position:absolute; bottom:0; left:0px; background:url(/images/controls.png) no-repeat -75px 0px; width:25px; height:25px; text-indent:-9999px;}
+        #cboxPrevious{position:absolute; bottom:0; left:0px; background:url('/images/controls.png') no-repeat -75px 0px; width:25px; height:25px; text-indent:-9999px;}
         #cboxPrevious.hover{background-position:-75px -25px;}
-        #cboxNext{position:absolute; bottom:0; left:27px; background:url(/images/controls.png) no-repeat -50px 0px; width:25px; height:25px; text-indent:-9999px;}
+        #cboxNext{position:absolute; bottom:0; left:27px; background:url('/images/controls.png') no-repeat -50px 0px; width:25px; height:25px; text-indent:-9999px;}
         #cboxNext.hover{background-position:-50px -25px;}
-        #cboxLoadingOverlay{background:url(/images/loading_background.png) no-repeat center center;}
-        #cboxLoadingGraphic{background:url(/images/loading.gif) no-repeat center center;}
+        #cboxLoadingOverlay{background:url('/images/loading_background.png') no-repeat center center;}
+        #cboxLoadingGraphic{background:url('/images/loading.gif') no-repeat center center;}
         #cboxClose{position:absolute; top:5px; right:5px; background:#5e5956; width:25px; height:25px; border-radius: 20px;border: 0; color: #eeebe9; text-transform: uppercase; line-height: 20px; text-align: center; font-size: 14px;}
         #cboxClose.hover{background-position:-25px -25px;}
 

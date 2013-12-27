@@ -4,6 +4,7 @@ class Auth {
 	
 	var $menu = array( 
 						'products' => array( 'products' => 'List Products', 'product' => 'Add Product' ),
+						'profiles' => array( 'profiles' => 'List Profiles', 'profile' => 'Add Profile' ),
 						'wood_types' => array( 'wood_types' => 'List Wood Types', 'wood_type' => 'Add Wood Type' ),
 						'colors' => array( 'colors' => 'List Colors', 'color' => 'Add Color' ),
 						'discounts' => array( 'discounts' => 'List Discounts', 'discount' => 'Add Discount' ),
