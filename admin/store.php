@@ -328,7 +328,7 @@ class Store {
 		}	
 		
 		// reset shipping since the cart is different now
-		unset( $_SESSION['shipping'] );
+		unset( $_SESSION['shipping_rate'] );
 		
 		
 	}
@@ -340,7 +340,7 @@ class Store {
 			unset( $_SESSION['cart'][ $_GET['product_type'] ][ $_GET['remove'] ] );
 			
 			// reset shipping since the cart is different now
-			unset( $_SESSION['shipping'] );
+			unset( $_SESSION['shipping_rate'] );
 			
 		}
 	}

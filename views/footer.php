@@ -216,7 +216,7 @@
 					
 					console.log( $(this).attr('name') + ' changed' );
 					
-					if( validateShipping() === true ) {
+					if( validateShipping( false ) === true ) {
 						
 						getRates();
 						
@@ -228,7 +228,7 @@
 		
 		});
 		
-		function validateShipping() {
+		function validateShipping( bypass_verify ) {
 			
 			var errors = 0;
 			
@@ -251,9 +251,15 @@
 				return false;
 				
 			} else {
-				
+			
+				if( bypass_verify ) {
+					
+					console.log( 'bypassing verify' );
+					
+					return true;
+					
 				// doing this to try to keep it from firing multiple times
-				if( verified_shipping_try == verified_shipping ) {
+				} else if( verified_shipping_try == verified_shipping ) {
 					
 					console.log( 'already verified this string and got rates' );
 					

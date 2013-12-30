@@ -37,21 +37,26 @@
 		$_POST['shipping_state'] 	&& 
 		$_POST['shipping_zipcode'] ) {
 		
-		echo( 'trying to update shipping' );
+		//echo( 'trying to update shipping' );
+		
+		//print_r( $_POST );
 		
 		$rates = $store->getUPSRates( $_POST['shipping_name'], $_POST['shipping_name'], '', $_POST['shipping_address1'], $_POST['shipping_city'], $_POST['shipping_state'], $_POST['shipping_zipcode'], 'US', '' );	
 		
-		print_r( $rates );
-		
 		if( isset( $rates['rates']['Ground']['rate'] ) ) {
+		
+			//echo( 'rate: ' . $rates['rates']['Ground']['rate'] );
 			
-			$_SESSION['shipping'] = $rates['rates']['Ground']['rate'];
+			$shipping = $rates['rates']['Ground']['rate'];
+			$_SESSION['shipping_rate'] = $rates['rates']['Ground']['rate'];
+			
+			//print_r( $_SESSION );
 			
 		} else {
 			
 			$code_message = 'No rates are available for this information. Please contact Boxwork Cabinets for further instruction.';
 			
-			unset( $_SESSION['shipping'] );
+			unset( $_SESSION['shipping_rate'] );
 			
 		}		
 			
@@ -203,11 +208,13 @@
 			<th>&nbsp;</th>
 			<th id='shipping-rates' class='last'>
 			
-				<? if( $_SESSION['shipping'] ): ?>
+				<? //echo( 'rate: ' . $_SESSION['shipping_rate'] ); ?>
+			
+				<? if( $_SESSION['shipping_rate'] > 0 ): ?>
 				
-					<? $shipping = $_SESSION['shipping']; ?>
+					<? $shipping = $_SESSION['shipping_rate']; ?>
 				
-					$<?=number_format( $_SESSION['shipping'], 2 ) ?>
+					$<?=number_format( $shipping, 2 ) ?>
 					
 				<? else: ?>
 				
@@ -281,7 +288,7 @@
 				
 				e.preventDefault();
 				
-				if( validateShipping() === true ) {
+				if( validateShipping( true ) === true ) {
 						
 					getRates();
 					
