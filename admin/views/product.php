@@ -18,6 +18,7 @@
 <?=$form->select( 'product_subcategory', $controller->result['product_subcategory']?$controller->product_subcategories[ $controller->result['product_type'] ]:array(), array( 'label' => 'Product Subcategory', 'default' => $controller->result['product_subcategory'], 'class' => 'required', 'empty' => ' ( Choose Product Type ) ' ) ) ?>
 <?=$form->textbox( 'base_price', array( 'label' => 'Base Price', 'default' => $controller->result['base_price'], 'class' => 'required number' ) ) ?>
 <?=$form->textbox( 'price', array( 'label' => 'Price ( sqft or cuft )', 'default' => $controller->result['price'], 'class' => 'required number' ) ) ?>
+<?=$form->textbox( 'lb_per_sqft', array( 'label' => 'Weight ( lb / sqft )', 'default' => $controller->result['lb_per_sqft'], 'class' => 'required number' ) ) ?>
 <?=$form->textbox( 'product_width', array( 'label' => 'Width ( for molding )', 'default' => ($controller->result['product_width']?$controller->result['product_width']:0), 'class' => 'number' ) ) ?>
 <?=$form->textbox( 'product_height', array( 'label' => 'Height ( for shelves )', 'default' => ($controller->result['product_height']?$controller->result['product_height']:0), 'class' => 'number' ) ) ?>
 <?=$form->textbox( 'width_lower', array( 'label' => 'Width Lower', 'default' => ($controller->result['width_lower']?$controller->result['width_lower']:0), 'class' => 'number' ) ) ?>

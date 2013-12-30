@@ -210,9 +210,56 @@
 			
 				$('.cart-contents').load('/_cart_contents?ajax=true');
 				
+				$('.shipping-info').change(function(){
+					
+					if( validateShipping() === true ) {
+						
+						getRates();
+						
+					}
+					
+				});
+				
 			<? endif; ?>
 		
 		});
+		
+		function validateShipping() {
+			
+			var errors = 0;
+			
+			$('.shipping-info').each(function( index ) {
+				if( $(this).val() == '' ) {
+					errors++;
+				}
+			    console.log( index + ": " + $( this ).val() );
+			});
+			
+			if( errors > 0 ) {
+				
+				return false;
+				
+			} else {
+				
+				return true;
+				
+			}
+			
+		}
+		
+		function getRates() {
+		
+			var postData = $('.shipping-info').serialize();
+						
+			$.ajax({
+			  url: '/_cart_contents?ajax=true',
+			  data: postData,
+			  type: "POST"
+			}).done(function(data) {
+			    $('.cart-contents').html( data );
+			});	
+			
+		}
 	
 	</script>
 

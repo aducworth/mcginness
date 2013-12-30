@@ -72,22 +72,22 @@
 		        <div id='shipping-fields'>
 		        
 		        <p>
-		        	<?=$form->textbox( 'shipping_name', array( 'label' => 'Shipping Name', 'default' => $_POST['shipping_name'], 'class' => 'required' ) ) ?>
+		        	<?=$form->textbox( 'shipping_name', array( 'label' => 'Shipping Name', 'default' => $_POST['shipping_name'], 'class' => 'required shipping-info' ) ) ?>
 		        </p>
 		        <p>
-		        	<?=$form->textbox( 'shipping_address1', array( 'label' => 'Address 1', 'default' => $_POST['shipping_address1'], 'class' => 'required' ) ) ?>
+		        	<?=$form->textbox( 'shipping_address1', array( 'label' => 'Address 1', 'default' => $_POST['shipping_address1'], 'class' => 'required shipping-info' ) ) ?>
 		        </p>
 		        <p>
 		        	<?=$form->textbox( 'shipping_address2', array( 'label' => 'Address 2', 'default' => $_POST['shipping_address2'] ) ) ?>
 		        </p>
 		        <p>
-		        	<?=$form->textbox( 'shipping_city', array( 'label' => 'City', 'default' => $_POST['shipping_city'], 'class' => 'required' ) ) ?>
+		        	<?=$form->textbox( 'shipping_city', array( 'label' => 'City', 'default' => $_POST['shipping_city'], 'class' => 'required shipping-info' ) ) ?>
 		        </p>
 		        <p>
-		         	<?=$form->select( 'shipping_state', $form->states, array( 'label' => 'State', 'empty' => ' ', 'default' => $_POST['shipping_state'], 'class' => 'required', 'onchange' => 'shipping_and_taxes()' ) ) ?>
+		         	<?=$form->select( 'shipping_state', $form->states, array( 'label' => 'State', 'empty' => ' ', 'default' => $_POST['shipping_state'], 'class' => 'required shipping-info' ) ) ?>
 		        </p>
 		        <p>
-		        	<?=$form->textbox( 'shipping_zipcode', array( 'label' => 'Zipcode', 'default' => $_POST['shipping_zipcode'], 'class' => 'required' ) ) ?>
+		        	<?=$form->textbox( 'shipping_zipcode', array( 'label' => 'Zipcode', 'default' => $_POST['shipping_zipcode'], 'class' => 'required shipping-info' ) ) ?>
 		        </p>
 		        <p>
 		        	<?=$form->textbox( 'shipping_phone', array( 'label' => 'Phone', 'default' => $_POST['shipping_phone'], 'class' => 'required' ) ) ?>

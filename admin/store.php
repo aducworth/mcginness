@@ -169,6 +169,74 @@ class Store {
 		
 	}
 	
+	public function calculateWeight( $id, $width, $height, $depth, $length ) {
+		
+		$this->db->table = 'products';
+		
+		$product = $this->db->retrieve('one','*',' where id = '. $id);
+		
+		$cuin_to_cuft = 0.000578704;
+		$sqin_to_sqft = 0.00694444;
+		$in_to_ft = 0.0833333;
+		
+		// if this is an accessory, pricing is calculated differently
+		if( $product['product_type'] == 4 ) {
+		
+			// if length is chosen, this is some kind of molding
+			if( $product['choose_length'] ) {
+			
+				if( $width && $length ) {
+				
+					$area = ( $width * $in_to_ft ) * $length;
+										
+					return ( $area * $product['lb_per_sqft'] );
+					
+				}
+			
+			} elseif( $product['product_subcategory'] == 6 ) { // if this is a pull out shelf
+			
+				if( $width && $product['product_height'] && $depth ) {
+				
+					$volume = ( $width * $product['product_height'] * $depth ) * $cuin_to_cuft;
+					$front_area = ( $width * $product['product_height'] ) * $sqin_to_sqft;
+					
+					return ( $front_area * $product['lb_per_sqft'] );
+					
+				}				
+				
+			} else { // otherwise, this is a door end panel
+			
+				if( $width && $height ) {
+				
+					$area = ( $width * $height ) * $sqin_to_sqft;
+					
+					return ( $area * $product['lb_per_sqft'] );
+					
+				}
+				
+			}
+			
+		} else {
+		
+			if( $width && $height && $depth ) {
+			
+				// (w*h)+2(w*d)+2(h*d)= total cabinet box sqft for a lower cabinet
+                // (w*h)+4(w*d)+2(h*d)= total cabinet box sqft for an upper cabinet
+                // (w*h)+6(w*d)+2(h*d)= total cabinet box sqft for a specialty cabinet
+				
+				//$volume = ( $width * $height * $depth ) * $cuin_to_cuft;
+				$front_area = ( $width * $height ) * $sqin_to_sqft;
+				
+				return ( $front_area * $product['lb_per_sqft'] );
+			
+			}
+			
+		}
+		
+		return 0;
+		
+	}
+	
 	public function addToCart() {
 	
 		$this->db->table = 'products';
@@ -259,6 +327,8 @@ class Store {
 			
 		}	
 		
+		// reset shipping since the cart is different now
+		unset( $_SESSION['shipping'] );
 		
 		
 	}
@@ -268,6 +338,9 @@ class Store {
 		if( $_GET['product_type'] && isset( $_GET['remove'] ) ) {
 		
 			unset( $_SESSION['cart'][ $_GET['product_type'] ][ $_GET['remove'] ] );
+			
+			// reset shipping since the cart is different now
+			unset( $_SESSION['shipping'] );
 			
 		}
 	}
@@ -310,5 +383,188 @@ class Store {
 		return $_SESSION['discount_code']['amount'];
 		
 	}
+	
+	public function processRate( $name, $company, $phone, $street, $city, $state, $zipcode, $country, $residential ) {
+      //create soap request
+      $option['RequestOption'] = 'Shop';
+      $request['Request'] = $option;
+
+      $pickuptype['Code'] = '01';
+      $pickuptype['Description'] = 'Daily Pickup';
+      $request['PickupType'] = $pickuptype;
+
+      $customerclassification['Code'] = '01';
+      $customerclassification['Description'] = 'Classfication';
+      $request['CustomerClassification'] = $customerclassification;
+
+      $shipper['Name'] = 'Box Work Cabinets';
+      $shipper['ShipperNumber'] = '';
+      $address['AddressLine'] = array
+      (
+          '8193 Citation Trl.'
+      );
+      $address['City'] = 'Evergreen';
+      $address['StateProvinceCode'] = 'CO';
+      $address['PostalCode'] = '80439';
+      $address['CountryCode'] = 'US';
+      $shipper['Address'] = $address;
+      $shipment['Shipper'] = $shipper;
+
+	  $shipto['Name'] = $name;
+      $addressTo['AddressLine'] = $street;
+      $addressTo['City'] = $city;
+      $addressTo['StateProvinceCode'] = $state;
+      $addressTo['PostalCode'] = $zipcode;
+      $addressTo['CountryCode'] = $country;
+      $addressTo['ResidentialAddressIndicator'] = '';
+      $shipto['Address'] = $addressTo;
+      $shipment['ShipTo'] = $shipto;
+      
+      
+      $shipfrom['Name'] = 'Box Work Cabinets';
+      $addressFrom['AddressLine'] = array
+      (
+          '8193 Citation Trl.'
+      );
+      $addressFrom['City'] = 'Evergreen';
+      $addressFrom['StateProvinceCode'] = 'CO';
+      $addressFrom['PostalCode'] = '80439';
+      $addressFrom['CountryCode'] = 'US';
+      $shipfrom['Address'] = $addressFrom;
+      $shipment['ShipFrom'] = $shipfrom;
+
+      $service['Code'] = '03';
+      $service['Description'] = 'Service Code';
+      $shipment['Service'] = $service;
+
+	  $packages = array();
+	  
+	  foreach( $this->product_types as $id => $type ) {
+		
+	  	if( count( $_SESSION['cart'][ $id ] ) > 0 ) {
+				
+			foreach( $_SESSION['cart'][ $id ] as $index => $item ) {
+	  
+		  	  $weight = $this->calculateWeight( $item['id'], $item['width'], $item['height'], $item['depth'], $item['length'] );
+		  	  
+			  $packaging1['Code'] = '02';
+		      $packaging1['Description'] = 'Rate';
+		      $package1['PackagingType'] = $packaging1;
+		      $dunit1['Code'] = 'IN';
+		      $dunit1['Description'] = 'inches';
+		      $dimensions1['Length'] = 36;
+		      $dimensions1['Width'] = 6;
+		      $dimensions1['Height'] = 42;
+		      $dimensions1['UnitOfMeasurement'] = $dunit1;
+		      $package1['Dimensions'] = $dimensions1;
+		      $punit1['Code'] = 'LBS';
+		      $punit1['Description'] = 'Pounds';
+		      $packageweight1['Weight'] = $weight;
+		      $packageweight1['UnitOfMeasurement'] = $punit1;
+		      $package1['PackageWeight'] = $packageweight1;
+		      
+		      $packages[] = $package1;
+		      
+		    }
+		    
+		 }
+      
+	  }
+	  
+      $shipment['Package'] = $packages;
+      $shipment['ShipmentServiceOptions'] = '';
+      $shipment['LargePackageIndicator'] = '';
+      $request['Shipment'] = $shipment;
+
+      return $request;
+  }
+  
+  public function getUPSRates( $name, $company, $phone, $street, $city, $state, $zipcode, $country, $residential )
+  {
+  
+  	  $toreturn = array();
+  
+  	  //Configuration
+	  $access = "0CB86D74B0911026";
+	  $userid = "austinehouse";
+	  $passwd = "TigerLover1";
+	  $wsdl = getcwd() . "/ups/RateWS.wsdl";
+	  $operation = "ProcessRate";
+	  $endpointurl = 'http://' . $_SERVER['HTTP_HOST'];
+	  $outputFileName = "XOLTResult.xml";
+	  
+	  $shipping_codes = array(  '11' => 'Standard',	
+								'03' => 'Ground',	
+								'12' => '3 Day Select',	
+								'02' => '2nd Day Air',	
+								'59' => '2nd Day Air AM',	
+								'13' => 'Next Day Air Saver',	
+								'01' => 'Next Day Air',	
+								'14' => 'Next Day Air Early A.M.', 
+								'07' => 'UPS Worldwide Express',	
+								'54' => 'Worldwide Express Plus', 
+								'08' => 'UPS Worldwide Expedited',	
+								'65' => 'UPS World Wide Saver' );
+
+	  try
+	  {
+	
+	    $mode = array
+	    (
+	         'soap_version' => 'SOAP_1_1',  // use soap 1.1 client
+	         'trace' => 1
+	    );
+	
+	    // initialize soap client
+	  	$client = new SoapClient($wsdl , $mode);
+	
+	    //create soap header
+	    $usernameToken['Username'] = $userid;
+	    $usernameToken['Password'] = $passwd;
+	    $serviceAccessLicense['AccessLicenseNumber'] = $access;
+	    $upss['UsernameToken'] = $usernameToken;
+	    $upss['ServiceAccessToken'] = $serviceAccessLicense;
+	
+	    $header = new SoapHeader('http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0','UPSSecurity',$upss);
+	    $client->__setSoapHeaders($header);
+	
+	    //get response
+	  	$resp = $client->__soapCall($operation ,array($this->processRate( $name, $company, $phone, $street, $city, $state, $zipcode, $country, $residential )));
+	  	
+	  	//echo( '<h1>Here</h1>' );
+	
+	    //get status
+	    //echo "<h1>Response Status: " . $resp->Response->ResponseStatus->Description . "</h1>";
+	    
+	    foreach( $resp->Response->Alert as $alert ) {
+	    
+	    	$toreturn['alerts'][$alert->Code] = $alert->Description;
+	    	
+	    }
+	    
+	    foreach( $resp->RatedShipment as $option ) {
+	    
+	    	$data = array( 
+	    						'name' => $shipping_codes[ $option->Service->Code ],
+	    						'rate' => $option->TotalCharges->MonetaryValue
+	    						); 
+		    
+//		    echo( '<p>' );
+//		    print_r( $option );
+//		    echo( '</p>' );
+		    
+		    $toreturn['rates'][ $shipping_codes[ $option->Service->Code ] ] = $data;
+		    
+	    }
+	
+	  }
+	  catch(Exception $ex)
+	  {
+	  	//print_r ($ex);
+	  }
+	  
+	  return $toreturn;
+  
+  }
 
 }

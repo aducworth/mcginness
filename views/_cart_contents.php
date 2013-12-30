@@ -29,6 +29,28 @@
 	
 	}
 	
+	// see if we need to refresh shipping
+	if( $_POST['shipping_name'] 	&& 
+		$_POST['shipping_name'] 	&& 
+		$_POST['shipping_address1'] &&
+		$_POST['shipping_city']		&&
+		$_POST['shipping_state'] 	&& 
+		$_POST['shipping_zipcode'] ) {
+		
+		$rates = $store->getUPSRates( $_POST['shipping_name'], $_POST['shipping_name'], '', $_POST['shipping_address1'], $_POST['shipping_city'], $_POST['shipping_state'], $_POST['shipping_zipcode'], 'US', '' );	
+	
+		if( isset( $rates['rates']['Ground']['rate'] ) ) {
+			
+			$_SESSION['shipping'] = $rates['rates']['Ground']['rate'];
+			
+		} else {
+			
+			$code_message = 'No rates are available for this information. Please contact Boxwork Cabinets for further instruction.';
+			
+		}		
+			
+	}
+	
 	$db->table = 'products';
 	$product_list = $db->retrieve('pair','id,name');
 	
@@ -108,6 +130,8 @@
 								
 							<? endif; ?>
 							
+							<p>Shipping Weight: <?=$store->calculateWeight( $item['id'], $item['width'], $item['height'], $item['depth'], $item['length'] ); ?></p>
+							
 							<p><? //print_r( $item ) ?></p>
 							
 							
@@ -164,10 +188,30 @@
 		</tr>
 			
 		<tr>
-			<th>Shipping</th>
+			<th>Shipping
+				<? if( !$_GET['edit'] ): ?>
+					( <a href='#' id='refresh-rates'>refresh</a> )
+				<? endif; ?>
+			</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th class='last'>$<?=number_format( $shipping, 2 ) ?></th>
+			<th id='shipping-rates' class='last'>
+			
+				<? if( $_SESSION['shipping'] ): ?>
+				
+					<? $shipping = $_SESSION['shipping']; ?>
+				
+					$<?=number_format( $_SESSION['shipping'], 2 ) ?>
+					
+				<? else: ?>
+				
+					<? $shipping = 0; ?>
+				
+					TBD
+					
+				<? endif; ?>
+				
+			</th>
 		</tr>
 							
 		<tr>
@@ -216,7 +260,7 @@
 				}).done(function(data) {
 				
 				    $.ajax({
-					  url: '/_cart_contents?ajax=true',
+					  url: '/_cart_contents?ajax=true<?=$_GET['edit']?"&edit=true":'' ?>',
 					  type: "POST"
 					}).done(function(data) {
 					  $('.cart-contents').html( data );
@@ -225,6 +269,22 @@
 				
 				//alert( $(this).attr('href') );
 				
+			});
+			
+			$('#refresh-rates').click(function(e) {
+				
+				e.preventDefault();
+				
+				if( validateShipping() === true ) {
+						
+					getRates();
+					
+				} else {
+					
+					alert( 'Please enter all shipping info to get rates.' );
+					
+				}
+					
 			});
 		
 		});
