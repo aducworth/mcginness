@@ -47,12 +47,27 @@
 			
 				//$('.side-panel-cart').html( '<p>Loading...</p>' );
 			
-				$.ajax({
-				  url: '/_mini_cart?ajax=true',
-				  type: "POST"
-				}).done(function(data) {
-				  $('.side-panel-cart').html( data );
-				});
+				// see if we should load the mini cart or the full
+				if( $('.side-panel-cart').length > 0 ) {
+					
+					$.ajax({
+					  url: '/_mini_cart?ajax=true',
+					  type: "POST"
+					}).done(function(data) {
+					  $('.side-panel-cart').html( data );
+					});
+					
+				} else {
+				
+					$.ajax({
+					  url: '/_cart_contents?ajax=true&edit=true',
+					  type: "POST"
+					}).done(function(data) {
+					  $('.cart-contents').html( data );
+					});					
+					
+				}
+				
 			  
 			});
 		
@@ -154,11 +169,48 @@
 			
 			});
 			
-			$('.selected-door-and-drawer').load('/_selected_drawer_type?ajax=true');
-			$('.selected-wood-type').load('/_selected_wood_type?ajax=true');
-			$('.selected-stain-color').load('/_selected_stain_color?ajax=true');
-			$('.side-panel-cart').load('/_mini_cart?ajax=true');
-			$('.cart-contents').load('/_cart_contents?ajax=true');
+			$('#apply-discount').click(function(e) {
+				
+				if( $('#discount-code').val() != '' ) {
+				
+					var postData = 'discount_code=' + $('#discount-code').val();
+					
+					$.ajax({
+					  url: '/_cart_contents?ajax=true',
+					  data: postData,
+					  type: "POST"
+					}).done(function(data) {
+					  $('.cart-contents').html( data );
+					});	
+				
+				} else {
+					
+					alert( 'Please enter a discount code' );
+					
+				}
+				
+			});
+			
+			<? if( $action == 'build' ): ?>
+			
+				$('.selected-door-and-drawer').load('/_selected_drawer_type?ajax=true');
+				$('.selected-wood-type').load('/_selected_wood_type?ajax=true');
+				$('.selected-stain-color').load('/_selected_stain_color?ajax=true');
+				$('.side-panel-cart').load('/_mini_cart?ajax=true');
+			
+			<? endif; ?>
+			
+			<? if( $action == 'cart' ): ?>
+			
+				$('.cart-contents').load('/_cart_contents?ajax=true&edit=true');
+				
+			<? endif; ?>
+			
+			<? if( $action == 'checkout' ): ?>
+			
+				$('.cart-contents').load('/_cart_contents?ajax=true');
+				
+			<? endif; ?>
 		
 		});
 	

@@ -199,12 +199,20 @@ class Store {
 		
 				$end_panel = $_POST;
 				
+				// since this is an end panel, make the width of the panel the depth of the cabinet
+				$width 		= $_POST['depth'];
+				$height 	= $_POST['height'];
+				$depth 		= '';
+				
 				$end_panel['id'] = $_POST['add_end_panel'];
 				$end_panel['quantity'] = $_POST['end_panel_quantity'];
-				$end_panel['price'] = $this->calculatePrice( $_POST['add_end_panel'], $_POST['width'], $_POST['height'], $_POST['depth'], $_POST['length'], $end_panel_info['price'], $_POST['profile_price'], $_POST['wood_price'], $_POST['stain_price'] );
+				$end_panel['width'] = $width;
+				$end_panel['height'] = $height;
+				$end_panel['depth'] = $depth;
+				$end_panel['price'] = $this->calculatePrice( $_POST['add_end_panel'], $width, $height, $depth, $_POST['length'], $end_panel_info['price'], $_POST['profile_price'], $_POST['wood_price'], $_POST['stain_price'] );
 				
 				// unset unrelated fields
-				unset( $end_panel['hinge-side'] );
+				unset( $end_panel['hinge_side'] );
 				unset( $end_panel['add_end_panel'] );
 				unset( $end_panel['end_panel_quantity'] );
 				unset( $end_panel['add_shelves'] );
@@ -225,13 +233,20 @@ class Store {
 		
 				$shelf = $_POST;
 				
+				// since this is a pullout shelf, make the height 4.75				
+				$width 		= $_POST['width'];
+				$height 	= '4.75';
+				$depth 		= $_POST['depth'];
+				
 				$shelf['id'] = $_POST['shelf_value'];
 				$shelf['quantity'] = $_POST['shelf_quantity'];
-				$shelf['height'] = 4.75;
-				$shelf['price'] = $this->calculatePrice( $_POST['shelf_value'], $_POST['width'], 4.75, $_POST['depth'], $_POST['length'], $shelf_info['price'], $_POST['profile_price'], $_POST['wood_price'], $_POST['stain_price'] );
+				$shelf['width'] = $width;
+				$shelf['height'] = $height;
+				$shelf['depth'] = $depth;
+				$shelf['price'] = $this->calculatePrice( $_POST['shelf_value'], $width, $height, $depth, $_POST['length'], $shelf_info['price'], $_POST['profile_price'], $_POST['wood_price'], $_POST['stain_price'] );
 				
 				// unset unrelated fields
-				unset( $shelf['hinge-side'] );
+				unset( $shelf['hinge_side'] );
 				unset( $shelf['add_end_panel'] );
 				unset( $shelf['end_panel_quantity'] );
 				unset( $shelf['add_shelves'] );
@@ -255,6 +270,45 @@ class Store {
 			unset( $_SESSION['cart'][ $_GET['product_type'] ][ $_GET['remove'] ] );
 			
 		}
+	}
+	
+	public function applyDiscountCode( $code ) {
+		
+		$this->db->table = 'discounts';
+		
+		$code_info = $this->db->retrieve('one','*'," where code = '" . $code . "' and is_active=1");
+		
+		// if this is a valid code, set the info in session and return true
+		if( $code_info['id'] ) {
+			
+			$_SESSION['discount_code'] = $code_info;
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
+	
+	public function resetDiscountCode( ) {
+	
+		unset( $_SESSION['discount_code'] );
+	
+	}
+	
+	public function calculateDiscount( $total ) {
+		
+		// calculate percentage off if it's that kind of discount
+		if( $_SESSION['discount_code']['type'] == 'percentage' ) {
+			
+			return round( ( ( $_SESSION['discount_code']['amount'] / 100 ) * $total ), 2 );
+			
+		}
+		
+		// otherwise just return the amount ( flat )
+		return $_SESSION['discount_code']['amount'];
+		
 	}
 
 }

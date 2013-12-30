@@ -175,9 +175,9 @@
 					<p>Side of hinge:</p>
 					
 					<div class='eitheror-selector'>
-						<input type='hidden' name='hinge-side' class='eitheror-value' value='left'/>
-						<a href='#' class='either' data-value='left'>Left</a>
-						<a href='#' class='or selected' data-value='right'>Right</a>
+						<input type='hidden' name='hinge_side' class='eitheror-value' value='<?=$edit_info['hinge_side']?$edit_info['hinge_side']:'Left'; ?>'/>
+						<a href='#' class='either <?=( $edit_info['hinge_side'] == 'Right' )?'':'selected'; ?>' data-value='Left'>Left</a>
+						<a href='#' class='or <?=( $edit_info['hinge_side'] == 'Right' )?'selected':''; ?>' data-value='Right'>Right</a>
 						<span class='ordisplay'>Or</span>
 					</div>
 				
@@ -244,7 +244,7 @@
 					</select>	
 		    		
 		    	</div>
-	
+		    	
 			<? endif; ?>
 			
 			<div class='selection-row'>
@@ -258,7 +258,9 @@
 			</div>
 		
 			<div class='selection-row'>
+			
 				<button class='red-button'>Save</button>
+				
 			</div>
 			
 			<div class='calculated-price'>

@@ -127,6 +127,10 @@ nav ul li a:hover {
 	overflow: hidden;
 }
 
+.container h1 {
+	margin-top: 20px;
+}
+
 section.content {
 	width: 66%;
 	padding: 0 17%;
@@ -876,6 +880,7 @@ select.quantity {
 }
 
 .cart-contents table th {
+	font-size: 20px;
 	text-align: left;
 }
 
@@ -883,6 +888,46 @@ select.quantity {
 	text-align: right;
 }
 
+.cart-contents table p {
+	margin: 0 0 2px 0;
+	padding: 0;
+}
+
+.cart-contents a {
+	color: #056839;
+}
+
+.cart-contents a.red-button {
+	font-family: trajan-pro-3;
+	font-size: 14px;
+	color: #fff;
+	padding: 10px;
+	margin: 50px 0 50px 0;
+	display: block;
+	width: 200px;
+	float: right;
+}
+
+#order-input label {
+	display: block;
+	font-family: Helvetica;
+	width: 140px;
+}
+
+#order-input input, #order-input select, #order-input textarea {
+	height: 30px;
+	line-height: 30px;
+	width: 220px;
+	color: #9494a3;
+	font-size: 14px;
+	border: 1px solid;
+	border-radius: 2px;
+}
+
+#shipping-address, #billing-address, #payment-information {
+	float: left;
+	width: 33%;
+}
 
 .errors {
 	color: #94130e;

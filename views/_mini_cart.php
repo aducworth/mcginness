@@ -17,6 +17,10 @@
 	<table>
 	
 		<? $total = 0; ?>
+		
+		<? $wood_type 			= ''; ?>
+		<? $stain 				= ''; ?>
+		<? $wood_stain_combos	= 0;  ?>
 	
 		<? foreach( $store->product_types as $id => $type ): ?>
 		
@@ -30,11 +34,23 @@
 				
 					<tr>
 						<td><?=$item['quantity'] ?></td>
-						<td><?=$product_list[ $item['id'] ] ?> - <a href='/select_cabinet?ajax=true&product=<?=$item['id'] ?>&edit=<?=$index ?>&product_type=<?=$id ?>' class='colorbox'>edit</a> ( <a href='/_remove_from_cart?ajax=true&remove=<?=$index ?>&product_type=<?=$id ?>' class='remove-from-cart'>X</a> )</td>
+						<td><?=$product_list[ $item['id'] ] ?> - <a href='/select_cabinet?ajax=true&product=<?=$item['id'] ?>&edit=<?=$index ?>&product_type=<?=$id ?>' class='colorbox'>edit</a> ( <a href='/_remove_from_cart?ajax=true&remove=<?=$index ?>&product_type=<?=$id ?>' class='remove-from-cart'>x</a> )</td>
 						<td>$<?=number_format( ( $item['price'] * $item['quantity'] ), 2 ) ?></td>
 					</tr>
 					
 					<? $total += ( $item['price'] * $item['quantity'] ); ?>
+					
+					<? 
+						// check to see if there are multiple wood / stain combo, because that can get
+						// confusing when prices don't add up
+						if( $wood_type != $item['wood_type'] || $stain != $item['stain'] ) {
+							
+							$wood_type 	= $item['wood_type'];
+							$stain 		= $item['stain'];
+							$wood_stain_combos++;
+						}
+						
+					?>
 				
 				<? endforeach; ?>
 			
@@ -48,6 +64,12 @@
 			<td>$<?=number_format( $total, 2 ) ?></td>
 		</tr>
 	</table>
+	
+	<? if( $wood_stain_combos > 1 ): ?>
+	
+		<p style='margin: 10px 0;'>*** You have multiple wood / stain combinations in your cart.</p>
+		
+	<? endif; ?>
 	
 	<a href='/cart' class='red-button'>Checkout</a>
 	
