@@ -39,6 +39,8 @@
 	
 	<script>
 	
+		var verified_shipping = '';
+	
 		$(document).ready(function(){
 		
 			$(".colorbox").colorbox();
@@ -212,6 +214,8 @@
 				
 				$('.shipping-info').change(function(){
 					
+					console.log( $(this).attr('name') + ' changed' );
+					
 					if( validateShipping() === true ) {
 						
 						getRates();
@@ -228,11 +232,18 @@
 			
 			var errors = 0;
 			
+			var verified_shipping_try = '';
+			
 			$('.shipping-info').each(function( index ) {
+			
 				if( $(this).val() == '' ) {
 					errors++;
 				}
+				
+				verified_shipping_try += $(this).val();
+				
 			    console.log( index + ": " + $( this ).val() );
+			    
 			});
 			
 			if( errors > 0 ) {
@@ -241,13 +252,28 @@
 				
 			} else {
 				
-				return true;
+				// doing this to try to keep it from firing multiple times
+				if( verified_shipping_try == verified_shipping ) {
+					
+					console.log( 'already verified this string and got rates' );
+					
+					return false;
+					
+				} else {
+				
+					verified_shipping = verified_shipping_try;
+					
+					return true;
+					
+				}
 				
 			}
 			
 		}
 		
 		function getRates() {
+		
+			console.log( 'getRates()' );
 		
 			var postData = $('.shipping-info').serialize();
 						

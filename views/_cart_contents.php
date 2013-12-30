@@ -47,6 +47,8 @@
 			
 			$code_message = 'No rates are available for this information. Please contact Boxwork Cabinets for further instruction.';
 			
+			unset( $_SESSION['shipping'] );
+			
 		}		
 			
 	}
