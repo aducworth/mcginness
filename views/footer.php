@@ -173,6 +173,8 @@
 			
 			$('#apply-discount').click(function(e) {
 				
+				e.preventDefault();
+				
 				if( $('#discount-code').val() != '' ) {
 				
 					var postData = 'discount_code=' + $('#discount-code').val();
