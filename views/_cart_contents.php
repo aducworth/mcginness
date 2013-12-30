@@ -37,8 +37,12 @@
 		$_POST['shipping_state'] 	&& 
 		$_POST['shipping_zipcode'] ) {
 		
+		echo( 'trying to update shipping' );
+		
 		$rates = $store->getUPSRates( $_POST['shipping_name'], $_POST['shipping_name'], '', $_POST['shipping_address1'], $_POST['shipping_city'], $_POST['shipping_state'], $_POST['shipping_zipcode'], 'US', '' );	
-	
+		
+		print_r( $rates );
+		
 		if( isset( $rates['rates']['Ground']['rate'] ) ) {
 			
 			$_SESSION['shipping'] = $rates['rates']['Ground']['rate'];

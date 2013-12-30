@@ -154,7 +154,7 @@ class Store {
 				//$volume = ( $width * $height * $depth ) * $cuin_to_cuft;
 				$front_area = ( $width * $height ) * $sqin_to_sqft;
 				
-				//$product_calc = $volume * $product_price;
+				$product_calc = $product_calc * $product['price'];
 				$wood_calc = $front_area * $wood_price;
 				$stain_calc = $front_area * $stain_price;
 				$profile_calc = $front_area * $stain_price;
@@ -447,23 +447,27 @@ class Store {
 	  
 		  	  $weight = $this->calculateWeight( $item['id'], $item['width'], $item['height'], $item['depth'], $item['length'] );
 		  	  
-			  $packaging1['Code'] = '02';
-		      $packaging1['Description'] = 'Rate';
-		      $package1['PackagingType'] = $packaging1;
-		      $dunit1['Code'] = 'IN';
-		      $dunit1['Description'] = 'inches';
-		      $dimensions1['Length'] = 36;
-		      $dimensions1['Width'] = 6;
-		      $dimensions1['Height'] = 42;
-		      $dimensions1['UnitOfMeasurement'] = $dunit1;
-		      $package1['Dimensions'] = $dimensions1;
-		      $punit1['Code'] = 'LBS';
-		      $punit1['Description'] = 'Pounds';
-		      $packageweight1['Weight'] = $weight;
-		      $packageweight1['UnitOfMeasurement'] = $punit1;
-		      $package1['PackageWeight'] = $packageweight1;
+		  	  for( $i=0;$i<$item['quantity'];$i++ ) {
+		  	  
+				  $packaging1['Code'] = '02';
+			      $packaging1['Description'] = 'Rate';
+			      $package1['PackagingType'] = $packaging1;
+			      $dunit1['Code'] = 'IN';
+			      $dunit1['Description'] = 'inches';
+			      $dimensions1['Length'] = 36;
+			      $dimensions1['Width'] = 6;
+			      $dimensions1['Height'] = 42;
+			      $dimensions1['UnitOfMeasurement'] = $dunit1;
+			      $package1['Dimensions'] = $dimensions1;
+			      $punit1['Code'] = 'LBS';
+			      $punit1['Description'] = 'Pounds';
+			      $packageweight1['Weight'] = $weight;
+			      $packageweight1['UnitOfMeasurement'] = $punit1;
+			      $package1['PackageWeight'] = $packageweight1;
+			      
+			      $packages[] = $package1;
 		      
-		      $packages[] = $package1;
+		      }
 		      
 		    }
 		    
