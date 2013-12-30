@@ -224,6 +224,28 @@
 					
 				});
 				
+				$('#same-as-billing').click(function() {
+				
+					var ischecked = $(this).is(':checked');
+						
+					$('.billing-info').each(function( index ) {
+		
+						var tochange = $(this).attr('id').replace('billing','shipping');
+						
+						if( ischecked ) {
+						
+							$('#'+tochange).val( $(this).val() );
+							
+						} else {
+						
+							$('#'+tochange).val( '' );
+												    
+						}
+												  
+					});					
+					
+				});
+				
 			<? endif; ?>
 		
 		});

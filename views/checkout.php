@@ -36,24 +36,24 @@
 		        <h3>Billing Address</h3>
 		        
 		        <p>        
-		        	<?=$form->textbox( 'billing_name', array( 'label' => 'Billing Name', 'default' => $_POST['billing_name'], 'class' => 'required' ) ) ?>
+		        	<?=$form->textbox( 'billing_name', array( 'label' => 'Billing Name', 'default' => $_POST['billing_name'], 'class' => 'required billing-info' ) ) ?>
 		        </p>
 		        <p>  
-		        	<?=$form->textbox( 'billing_address1', array( 'label' => 'Address 1', 'default' => $_POST['billing_address1'], 'class' => 'required' ) ) ?></p>
+		        	<?=$form->textbox( 'billing_address1', array( 'label' => 'Address 1', 'default' => $_POST['billing_address1'], 'class' => 'required billing-info' ) ) ?></p>
 		        <p>
-		        	<?=$form->textbox( 'billing_address2', array( 'label' => 'Address 2', 'default' => $_POST['billing_address2'] ) ) ?>
+		        	<?=$form->textbox( 'billing_address2', array( 'label' => 'Address 2', 'default' => $_POST['billing_address2'], 'class' => 'billing-info' ) ) ?>
 		        </p>
 		        <p>
-		        	<?=$form->textbox( 'billing_city', array( 'label' => 'City', 'default' => $_POST['billing_city'], 'class' => 'required' ) ) ?>
+		        	<?=$form->textbox( 'billing_city', array( 'label' => 'City', 'default' => $_POST['billing_city'], 'class' => 'required billing-info' ) ) ?>
 		        </p>
 		        <p>
-		        	<?=$form->select( 'billing_state', $form->states, array( 'label' => 'State', 'empty' => ' ', 'default' => $_POST['billing_state'], 'class' => 'required' ) ) ?>
+		        	<?=$form->select( 'billing_state', $form->states, array( 'label' => 'State', 'empty' => ' ', 'default' => $_POST['billing_state'], 'class' => 'required billing-info' ) ) ?>
 		        </p>
 		        <p>
-		        	<?=$form->textbox( 'billing_zipcode', array( 'label' => 'Zipcode', 'default' => $_POST['billing_zipcode'], 'class' => 'required' ) ) ?>
+		        	<?=$form->textbox( 'billing_zipcode', array( 'label' => 'Zipcode', 'default' => $_POST['billing_zipcode'], 'class' => 'required billing-info' ) ) ?>
 		        </p>
 		        <p>
-		        	<?=$form->textbox( 'billing_phone', array( 'label' => 'Phone', 'default' => $_POST['billing_phone'], 'class' => 'required' ) ) ?>
+		        	<?=$form->textbox( 'billing_phone', array( 'label' => 'Phone', 'default' => $_POST['billing_phone'], 'class' => 'required billing-info' ) ) ?>
 		        </p>
 		        <p>
 		        	<?=$form->textbox( 'billing_email', array( 'label' => 'Email', 'default' => $_POST['billing_email'], 'class' => 'required' ) ) ?>
@@ -66,7 +66,7 @@
 		        <h3>Shipping Address</h3>
 		        
 		        <div id='billing-checkbox'>
-		        	<input type='checkbox' id='same_as_billing' name='same_as_billing' onclick='use_billing()' style='width: auto; height: auto;' <?=$_POST['same_as_billing']?'checked':'' ?>/> Same as Billing
+		        	<input type='checkbox' id='same-as-billing' style='width: auto; height: auto;' <?=$_POST['same_as_billing']?'checked':'' ?>/> Same as Billing
 		        </div>
 		        		        
 		        <div id='shipping-fields'>
