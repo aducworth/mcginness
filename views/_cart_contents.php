@@ -47,7 +47,7 @@
 		
 			//echo( 'rate: ' . $rates['rates']['Ground']['rate'] );
 			
-			$shipping = $rates['rates']['Ground']['rate'];
+			//$shipping = $rates['rates']['Ground']['rate'];
 			$_SESSION['shipping_rate'] = $rates['rates']['Ground']['rate'];
 			
 			//print_r( $_SESSION );

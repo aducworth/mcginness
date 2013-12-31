@@ -226,10 +226,22 @@ class Store {
                 // (w*h)+4(w*d)+2(h*d)= total cabinet box sqft for an upper cabinet
                 // (w*h)+6(w*d)+2(h*d)= total cabinet box sqft for a specialty cabinet
 				
-				//$volume = ( $width * $height * $depth ) * $cuin_to_cuft;
-				$front_area = ( $width * $height ) * $sqin_to_sqft;
+				// if this is a base cabinet
+				if( $product['product_type'] == 1 ) {
 				
-				return ( $front_area * $product['lb_per_sqft'] );
+					$area = ( ( $width * $height ) * $sqin_to_sqft ) + ( 2 * ( ( $width * $depth ) * $sqin_to_sqft ) ) + ( 2 * ( ( $height * $depth ) * $sqin_to_sqft ) );
+				
+				} elseif( $product['product_type'] == 2 ) {
+				
+					$area = ( ( $width * $height ) * $sqin_to_sqft ) + ( 4 * ( ( $width * $depth ) * $sqin_to_sqft ) ) + ( 2 * ( ( $height * $depth ) * $sqin_to_sqft ) );
+				
+				} elseif( $product['product_type'] == 3 ) {
+				
+					$area = ( ( $width * $height ) * $sqin_to_sqft ) + ( 6 * ( ( $width * $depth ) * $sqin_to_sqft ) ) + ( 2 * ( ( $height * $depth ) * $sqin_to_sqft ) );
+				
+				}
+								
+				return ( $area * $product['lb_per_sqft'] );
 			
 			}
 			
