@@ -190,9 +190,17 @@
 			</tr>
 		
 		<? endif; ?>
+		
+		<? $tax = $store->calculateTaxes( $total - $discount ); ?>
 			
 		<tr>
-			<th>Tax</th>
+			<th>Tax
+				<? if( $store->tax_rate > 0 ): ?>
+				
+					( <?=$store->tax_rate ?>% )
+					
+				<? endif; ?>
+			</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 			<th class='last'>$<?=number_format( $tax, 2 ) ?></th>

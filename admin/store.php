@@ -4,6 +4,8 @@ class Store {
 
 	var $db = null;	
 	
+	var $tax_rate = 7.5;
+	
 	var $product_types = array( 1 => 'Base Cabinets', 2 => 'Upper Cabinets', 3 => 'Specialty', 4 => 'Accessories' );
 	
 	var $product_subcategories = array( 1 => array(
@@ -367,6 +369,12 @@ class Store {
 	public function resetDiscountCode( ) {
 	
 		unset( $_SESSION['discount_code'] );
+	
+	}
+	
+	public function calculateTaxes( $total ) {
+	
+		return round( ( $total * ( $this->tax_rate / 100 ) ), 2 );
 	
 	}
 	
