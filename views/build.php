@@ -74,7 +74,7 @@
 					
 					<ul>
 						<? foreach( $wood_types as $wt ): ?>
-							<li class='visible-option'><a href='#' class='wood-type <?=($_SESSION['wood-type'] == $wt['id'])?'selected':'' ?>' data-value='<?=$wt['id'] ?>'><div class='image-holder' style='background-image: url(/images/wood-grain-1.jpg);'></div><span><?=$wt['name'] ?></span></a></li>
+							<li class='visible-option'><a href='#' class='wood-type <?=($_SESSION['wood-type'] == $wt['id'])?'selected':'' ?>' data-value='<?=$wt['id'] ?>'><div class='image-holder' style='background-image: url('<?=$wt['image']?('/images/uploads/thumbnails/'.$wt['image']):'/images/wood-grain-1.jpg' ?>');'></div><span><?=$wt['name'] ?></span></a></li>
 						<? endforeach; ?>
 					</ul>
 					
