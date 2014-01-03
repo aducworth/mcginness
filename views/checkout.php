@@ -8,7 +8,7 @@
 		
 		<h3>Order Summary</h3>
 		
-		<form action='/checkout' method='post'>
+		<form action='/checkout' method='post' id='checkout-form'>
 		
 		<div class='cart-contents'>
 		
@@ -131,10 +131,11 @@
 	                
 	        <p>
 	        
-	        	<input type='submit' id='submit' name='submit' value='Submit Order'/>
+	        	<button id='submit' name='submit' class='red-button'>Submit Order</button>
 	            
 	        </p>  
-	               
+	        
+	        <p class='cart-update-notice'></p>	               
 	    
 	    </div>
 	    

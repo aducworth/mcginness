@@ -186,7 +186,15 @@
 				- <a href='#' id='reset-discount'>reset</a> )</th>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
-				<th class='last'>$<?=number_format( $discount, 2 ) ?></th>
+				<th class='last'>
+				
+					$<?=number_format( $discount, 2 ) ?>
+					
+					<input type='hidden' name='promo_code' value="<?=$_SESSION['discount_code']['code'] ?>"/>
+					
+					<input type='hidden' name='promo_amount' value="<?=number_format( $discount, 2 ) ?>"/>
+					
+				</th>
 			</tr>
 		
 		<? endif; ?>
@@ -203,7 +211,10 @@
 			</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th class='last'>$<?=number_format( $tax, 2 ) ?></th>
+			<th class='last'>
+				$<?=number_format( $tax, 2 ) ?>
+				<input type='hidden' name='taxes' value='<?=number_format( $tax, 2 ) ?>'/>
+			</th>
 		</tr>
 			
 		<tr>
@@ -224,6 +235,8 @@
 				
 					$<?=number_format( $shipping, 2 ) ?>
 					
+					<input type='hidden' id='shipping' name='shipping' value='<?=number_format( $shipping, 2 ) ?>'/>
+					
 				<? else: ?>
 				
 					<? $shipping = 0; ?>
@@ -239,7 +252,10 @@
 			<th>Total</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th class='last'>$<?=number_format( ( ( $total + $tax + $shipping ) - $discount ), 2 ) ?></th>
+			<th class='last'>
+				$<?=number_format( ( ( $total + $tax + $shipping ) - $discount ), 2 ) ?>
+				<input type='hidden' name='total' value='<?=number_format( ( ( $total + $tax + $shipping ) - $discount ), 2 ) ?>'/>
+			</th>
 		</tr>
 	</table>
 	

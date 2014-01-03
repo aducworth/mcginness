@@ -244,13 +244,69 @@
 												    
 						}
 												  
-					});					
+					});	
+					
+					getRates();
+							
+					
+				});
+				
+				$('#checkout-form').submit(function(e) {
+					
+					return validateCheckout();
+					
+				});
+				
+				$('.input-error').on( 'blur', function() {
+					
+					if( $(this).val() != '' ) {
+						
+						$(this).removeClass('.input-error');
+						
+					}
 					
 				});
 				
 			<? endif; ?>
 		
 		});
+		
+		function validateCheckout() {
+		
+			var errors = 0;
+			$('.input-error').removeClass('input-error');
+			
+			// validate required fields
+			$('.required').each(function( index ) {
+			
+				if( $(this).val() == '' ) {
+					$(this).addClass('input-error');
+					errors++;
+				}
+				
+			    console.log( index + ": " + $( this ).attr('name') );
+			    
+			});
+			
+			if( $('#shipping').length == 0 ) {
+				
+				$('.cart-update-notice').html("<span class='errors'>*** Shipping rates must be calculated to checkout. Please click the refresh link in the cart to calculate rates.</span>");
+
+				errors++;
+				
+			}
+			
+			if( errors == 0 ) {
+				
+				return true;
+				
+			} else {
+				
+				return false;
+				
+			}
+			
+		}
 		
 		function validateShipping( bypass_verify ) {
 			
@@ -312,7 +368,11 @@
 			  data: postData,
 			  type: "POST"
 			}).done(function(data) {
+			
 			    $('.cart-contents').html( data );
+			    
+			    $('.cart-update-notice').html('*** Shipping rates have been updated. Please review the cart to see any added costs.');
+			    
 			});	
 			
 		}

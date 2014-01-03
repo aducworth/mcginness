@@ -908,10 +908,41 @@ select.quantity {
 	float: right;
 }
 
+.discount-container p {
+	font-family: Helvetica;
+}
+
+.discount-container button {
+	font-family: trajan-pro-3;
+	font-size: 14px;
+	color: #fff;
+	padding: 10px;
+}
+
+#submit {
+	font-family: trajan-pro-3;
+	font-size: 14px;
+	color: #fff;
+	padding: 10px;
+	width: 220px;
+}
+
+#billing-checkbox {
+	font-family: Helvetica;
+}
+
+.cart-update-notice {
+	font-family: Helvetica;
+}
+
 #order-input label {
 	display: block;
 	font-family: Helvetica;
 	width: 140px;
+}
+
+#comments-id {
+	height: 200px;
 }
 
 #order-input input, #order-input select, #order-input textarea {
@@ -923,6 +954,22 @@ select.quantity {
 	border: 1px solid;
 	border-radius: 2px;
 }
+
+#order-input textarea {
+	height: 100px;
+	line-height: auto;
+	width: 220px;
+	color: #9494a3;
+	font-size: 14px;
+	border: 1px solid;
+	border-radius: 2px;
+}
+
+.input-error {
+	background-color: #e98e8e;
+	color: #fff;
+}
+
 
 #shipping-address, #billing-address, #payment-information {
 	float: left;
