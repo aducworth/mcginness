@@ -970,6 +970,12 @@ select.quantity {
 	color: #fff;
 }
 
+.notification {
+	color: #94130e;
+	margin: 20px 0;
+	font-family: Helvetica;
+}
+
 
 #shipping-address, #billing-address, #payment-information {
 	float: left;

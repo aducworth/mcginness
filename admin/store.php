@@ -46,6 +46,10 @@ class Store {
 			
 		}
 		
+		$this->db->table = 'store_options';
+				
+		$this->store_options = $this->db->retrieve('pair','option_name,option_value'); 
+		
 		$this->db->table = 'colors';
 				
 		$this->color_list = $this->db->retrieve('pair','id,name',' order by display_order, name'); 
@@ -56,7 +60,10 @@ class Store {
 		
 		$this->db->table = 'profiles';
 			
-		$this->profile_list = $this->db->retrieve('pair','id,name',' order by display_order, name'); 
+		$this->profile_list = $this->db->retrieve('pair','id,name',' order by display_order, name');
+		
+		// set the tax rate
+		$this->tax_rate = $this->store_options['tax_rate']; 
 			
 	}
 	

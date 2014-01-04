@@ -4,6 +4,8 @@ class AppController {
 	
 	var $product_types = array( 1 => 'Base Cabinets', 2 => 'Upper Cabinets', 3 => 'Specialty', 4 => 'Accessories' );
 	
+	var $order_statuses = array( 'Received' => 'Received', 'Processing' => 'Processing', 'Shipped' => 'Shipped', 'Cancelled' => 'Cancelled' );
+	
 	var $product_subcategories = array( 1 => array(
 											1 => '1 Door',
 											2 => '2 Door',
@@ -93,6 +95,26 @@ class AppController {
 		$this->db->initial_setup();
 		
 	}
+	
+	public function storeoptions() {
+	
+		$this->db->table = 'store_options';
+		
+		if( count( $_POST ) > 0 ) {
+		
+			for( $i=0;$i<count($_POST['id']);$i++ ) {
+			
+				$data = array( 'id' => $_POST['id'][$i], 'option_value' => $_POST['name'][$i] );
+				
+				$this->db->save( $data );
+			
+			}
+		
+		}
+		
+		$this->store_options = $this->db->retrieve(); 
+	
+	}
 		
 	public function login() {
 	
@@ -169,11 +191,11 @@ class AppController {
 		
 		if( $_GET['search'] ) {
 			
-			$where = " where name like '%" . $_GET['search'] . "%'";
+			$where = " where billing_name like '%" . $_GET['search'] . "%'";
 			
 		}
 			
-		$this->results = $this->db->retrieve('all','*',$where . ' order by billing_name'); 
+		$this->results = $this->db->retrieve('all','*',$where . ' order by created desc'); 
 			
 	}
 	
@@ -183,7 +205,7 @@ class AppController {
 		
 		if( $_GET['search'] ) {
 			
-			$where = " where name like '%" . $_GET['search'] . "%'";
+			$where = " where code like '%" . $_GET['search'] . "%'";
 			
 		}
 			
@@ -581,6 +603,42 @@ class AppController {
 		if( $_GET['id'] ) {
 		
 			$this->db->table = 'discounts';
+			
+			$this->result = $this->db->retrieve( 'one', '*', ' where id = ' . $_GET['id'] ); 
+														
+		}
+		
+	
+	}
+	
+	public function order() {
+		
+		if( count( $_POST ) > 0 ) {
+			
+			$this->db->table = 'orders';
+						
+			if( !$this->message ) {
+				
+				if( $this->db->save( $_POST ) ) {
+				
+					if( !$_POST['id'] ) {
+					
+						$_POST['id'] = mysql_insert_id();
+					
+					}
+																							
+					header( 'Location: /orders' );
+					exit;
+								
+				}
+			
+			}
+		
+		}
+		
+		if( $_GET['id'] ) {
+		
+			$this->db->table = 'orders';
 			
 			$this->result = $this->db->retrieve( 'one', '*', ' where id = ' . $_GET['id'] ); 
 														

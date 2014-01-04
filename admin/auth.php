@@ -4,11 +4,8 @@ class Auth {
 	
 	var $menu = array( 
 						'products' => array( 'products' => 'List Products', 'product' => 'Add Product' ),
-						'profiles' => array( 'profiles' => 'List Profiles', 'profile' => 'Add Profile' ),
-						'wood_types' => array( 'wood_types' => 'List Wood Types', 'wood_type' => 'Add Wood Type' ),
-						'colors' => array( 'colors' => 'List Colors', 'color' => 'Add Color' ),
-						'discounts' => array( 'discounts' => 'List Discounts', 'discount' => 'Add Discount' ),
-						'orders' => array( 'orders' => 'List Orders' ),
+						'product_config' => array( 'profiles' => 'List Profiles', 'wood_types' => 'List Wood Types', 'colors' => 'List Colors'),
+						'orders' => array( 'orders' => 'List Orders', 'discounts' => 'List Discounts', 'storeoptions' => 'Store Options' ),
 						'users' => array( 'users' => 'List Users', 'user' => 'Add User' ) );
 						
 	var $always_allow = array( 'login', 'logout', 'permission' );
@@ -17,7 +14,7 @@ class Auth {
 	
 	var $user_types = array( 0 => 'Editor', 1 => 'Administrator' );
 	
-	var $show_search = array( 'theaters', 'films', 'studios', 'banners', 'users' );
+	var $show_search = array( 'orders', 'products', 'colors', 'profiles', 'wood_types', 'discounts', 'users' );
 	
 	var $allow = array( 'login', 'db_setup' );
 

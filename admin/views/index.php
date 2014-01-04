@@ -66,7 +66,7 @@
 							<?=$p['billing_name'] ?>
                         </a>
                     </td>
-                    <td>Modified <?=date( 'm/d/y g:ia', strtotime( $p['created'] ) ) ?></td>
+                    <td>Created <?=date( 'm/d/y g:ia', strtotime( $p['created'] ) ) ?></td>
                 </td>
                 
                 <? endforeach; ?>
