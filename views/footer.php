@@ -45,6 +45,8 @@
 		
 			$(".colorbox").colorbox();
 			
+			$(".gallery-item").colorbox({rel:'gallery-item'});
+			
 			$(document).bind('cbox_closed', function() {
 			
 				//$('.side-panel-cart').html( '<p>Loading...</p>' );
