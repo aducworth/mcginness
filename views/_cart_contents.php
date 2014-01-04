@@ -37,20 +37,11 @@
 		$_POST['shipping_state'] 	&& 
 		$_POST['shipping_zipcode'] ) {
 		
-		//echo( 'trying to update shipping' );
-		
-		//print_r( $_POST );
-		
 		$rates = $store->getUPSRates( $_POST['shipping_name'], $_POST['shipping_name'], '', $_POST['shipping_address1'], $_POST['shipping_city'], $_POST['shipping_state'], $_POST['shipping_zipcode'], 'US', '' );	
 		
 		if( isset( $rates['rates']['Ground']['rate'] ) ) {
 		
-			//echo( 'rate: ' . $rates['rates']['Ground']['rate'] );
-			
-			//$shipping = $rates['rates']['Ground']['rate'];
 			$_SESSION['shipping_rate'] = $rates['rates']['Ground']['rate'];
-			
-			//print_r( $_SESSION );
 			
 		} else {
 			
@@ -89,7 +80,8 @@
 		<? 
 			$total = 0; 
 			$tax = 0;
-			$shipping = 0;
+			$shipping = 0;			
+			$cart_index = 0;
 			
 		?>
 	
@@ -132,6 +124,24 @@
 									<? endif; ?>
 								
 								<? endif; ?>
+								
+								<input type='hidden' name='order_items[<?=$cart_index ?>][product]' value='<?=$item['id'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][product_type]' value='<?=$id ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][product_price]' value='<?=$item['product_price'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][wood_type]' value='<?=$item['wood_type'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][wood_price]' value='<?=$item['wood_price'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][stain]' value='<?=$item['stain'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][stain_price]' value='<?=$item['stain_price'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][profile]' value='<?=$item['profile'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][profile_price]' value='<?=$item['profile_price'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][width]' value='<?=$item['width'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][height]' value='<?=$item['height'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][depth]' value='<?=$item['depth'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][length]' value='<?=$item['length'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][hinge_side]' value='<?=$item['hinge_side'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][quantity]' value='<?=$item['quantity'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][price]' value='<?=$item['price'] ?>'/>
+								<input type='hidden' name='order_items[<?=$cart_index ?>][subtotal]' value='<?=round( ( $item['price'] * $item['quantity'] ), 2 ) ?>'/>
 							
 							 </p>
 							
@@ -143,7 +153,7 @@
 							
 							<p>Shipping Weight: <?=$store->calculateWeight( $item['id'], $item['width'], $item['height'], $item['depth'], $item['length'] ); ?></p>
 							
-							<p><? //print_r( $item ) ?></p>
+							<p><? // print_r( $item ) ?></p>
 							
 							
 						</td>
@@ -153,6 +163,8 @@
 					</tr>
 					
 					<? $total += ( $item['price'] * $item['quantity'] ); ?>
+					
+					<? $cart_index++; ?>
 				
 				<? endforeach; ?>
 			
@@ -164,7 +176,13 @@
 			<th>Subtotal</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th class='last'>$<?=number_format( $total, 2 ) ?></th>
+			<th class='last'>
+			
+				$<?=number_format( $total, 2 ) ?>
+				
+				<input type='hidden' name='product_total' value='<?=round( $total, 2 ) ?>'/>
+				
+			</th>
 		</tr>
 		
 		<? if( $_SESSION['discount_code']['id'] ): ?>
@@ -192,7 +210,7 @@
 					
 					<input type='hidden' name='promo_code' value="<?=$_SESSION['discount_code']['code'] ?>"/>
 					
-					<input type='hidden' name='promo_amount' value="<?=number_format( $discount, 2 ) ?>"/>
+					<input type='hidden' name='promo_amount' value="<?=round( $discount, 2 ) ?>"/>
 					
 				</th>
 			</tr>
@@ -213,7 +231,7 @@
 			<th>&nbsp;</th>
 			<th class='last'>
 				$<?=number_format( $tax, 2 ) ?>
-				<input type='hidden' name='taxes' value='<?=number_format( $tax, 2 ) ?>'/>
+				<input type='hidden' name='taxes' value='<?=round( $tax, 2 ) ?>'/>
 			</th>
 		</tr>
 			
@@ -222,6 +240,7 @@
 				<? if( !$_GET['edit'] ): ?>
 					( <a href='#' id='refresh-rates'>refresh</a> )
 				<? endif; ?>
+				<p>* Shipping rates are determined after shipping address is entered.</p>
 			</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
@@ -235,7 +254,7 @@
 				
 					$<?=number_format( $shipping, 2 ) ?>
 					
-					<input type='hidden' id='shipping' name='shipping' value='<?=number_format( $shipping, 2 ) ?>'/>
+					<input type='hidden' id='shipping' name='shipping' value='<?=round( $shipping, 2 ) ?>'/>
 					
 				<? else: ?>
 				
@@ -254,7 +273,7 @@
 			<th>&nbsp;</th>
 			<th class='last'>
 				$<?=number_format( ( ( $total + $tax + $shipping ) - $discount ), 2 ) ?>
-				<input type='hidden' name='total' value='<?=number_format( ( ( $total + $tax + $shipping ) - $discount ), 2 ) ?>'/>
+				<input type='hidden' name='total' value='<?=round( ( ( $total + $tax + $shipping ) - $discount ), 2 ) ?>'/>
 			</th>
 		</tr>
 	</table>

@@ -253,7 +253,15 @@
 				
 				$('#checkout-form').submit(function(e) {
 					
-					return validateCheckout();
+					if( validateCheckout() ) {
+						
+						return;
+						
+					} else {
+						
+						e.preventDefault();
+						
+					}
 					
 				});
 				

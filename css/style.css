@@ -976,6 +976,10 @@ select.quantity {
 	width: 33%;
 }
 
+.order-review {
+	font-family: Helvetica;
+}
+
 .errors {
 	color: #94130e;
 }
