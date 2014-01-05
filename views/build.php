@@ -42,7 +42,7 @@
 		
 		</div>
 		
-	<section class='build-1'>
+	<section class='build-1 build-graphics'>
 	
 		<div class='container'>
 			

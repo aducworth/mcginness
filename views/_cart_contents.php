@@ -70,7 +70,7 @@
 
 	<table>
 	
-		<tr>
+		<tr class='border-lower'>
 			<th>Product</th>
 			<th class='last'>Quantity</th>
 			<th class='last'>Unit Price</th>
@@ -91,7 +91,7 @@
 				
 				<? foreach( $_SESSION['cart'][ $id ] as $index => $item ): ?>
 				
-					<tr>
+					<tr class='<?=( $cart_index % 2 )?'even-row':'odd-row' ?>'>
 						<td>
 							<p>
 							
@@ -172,10 +172,10 @@
 		
 		<? endforeach; ?>
 		
-		<tr>
-			<th>Subtotal</th>
+		<tr class='border-upper'>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
+			<th class='last'>Subtotal</th>
 			<th class='last'>
 			
 				$<?=number_format( $total, 2 ) ?>
@@ -190,7 +190,9 @@
 			<? $discount = $store->calculateDiscount( $total ); ?>
 		
 			<tr>
-				<th>Discount ( <?=$_SESSION['discount_code']['code'] ?>:
+				<th>&nbsp;</th>
+				<th>&nbsp;</th>
+				<th class='last'>Discount ( <?=$_SESSION['discount_code']['code'] ?>:
 				
 					<? if( $_SESSION['discount_code']['type'] == 'percentage' ): ?>
 					
@@ -202,8 +204,6 @@
 					
 					<? endif; ?>
 				- <a href='#' id='reset-discount'>reset</a> )</th>
-				<th>&nbsp;</th>
-				<th>&nbsp;</th>
 				<th class='last'>
 				
 					$<?=number_format( $discount, 2 ) ?>
@@ -220,15 +220,15 @@
 		<? $tax = $store->calculateTaxes( $total - $discount ); ?>
 			
 		<tr>
-			<th>Tax
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th class='last'>Tax
 				<? if( $store->tax_rate > 0 ): ?>
 				
 					( <?=$store->tax_rate ?>% )
 					
 				<? endif; ?>
 			</th>
-			<th>&nbsp;</th>
-			<th>&nbsp;</th>
 			<th class='last'>
 				$<?=number_format( $tax, 2 ) ?>
 				<input type='hidden' name='taxes' value='<?=round( $tax, 2 ) ?>'/>
@@ -236,14 +236,9 @@
 		</tr>
 			
 		<tr>
-			<th>Shipping
-				<? if( !$_GET['edit'] ): ?>
-					( <a href='#' id='refresh-rates'>refresh</a> )
-				<? endif; ?>
-				<p>* Shipping rates are determined after shipping address is entered.</p>
-			</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
+			<th class='last'>Shipping</th>
 			<th id='shipping-rates' class='last'>
 			
 				<? //echo( 'rate: ' . $_SESSION['shipping_rate'] ); ?>
@@ -267,14 +262,19 @@
 			</th>
 		</tr>
 							
-		<tr>
-			<th>Total</th>
+		<tr class='total-row'>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
-			<th class='last'>
+			<th class='last total-label'>Total</th>
+			<th class='last total-value'>
 				$<?=number_format( ( ( $total + $tax + $shipping ) - $discount ), 2 ) ?>
 				<input type='hidden' name='total' value='<?=round( ( ( $total + $tax + $shipping ) - $discount ), 2 ) ?>'/>
 			</th>
+		</tr>
+		<tr>
+			<td colspan='4' class='last shipping-note'>* Shipping rates are determined after shipping address is entered <? if( !$_GET['edit'] ): ?>
+					( <a href='#' id='refresh-rates'>refresh</a> )
+				<? endif; ?>.</td>
 		</tr>
 	</table>
 	

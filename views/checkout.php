@@ -28,10 +28,20 @@
 		
 			<h1>Your Order</h1>
 			
-			<h3>Order Summary</h3>
-			
 			<form action='/checkout' method='post' id='checkout-form'>
 			
+			<div class='discount-container'>
+				
+				<h3>Discount Codes</h3>
+		
+				<input type='text' id='discount-code' placeholder='Code'>
+				
+				<button id='apply-discount' class='red-button'>Apply</button>
+				
+				<p style='font-size: 12px;'>* If you have a discount code, enter it above and click Apply.</p>
+			
+			</div>
+				
 			<div class='cart-contents'>
 			
 				<p>Loading...</p>
@@ -40,18 +50,6 @@
 			</div>
 			
 			<div id='order-input'>
-			
-				<div class='discount-container'>
-				
-					<h3>Discount Codes</h3>
-			
-					<input type='text' id='discount-code' placeholder='Code'>
-					
-					<button id='apply-discount' class='red-button'>Apply</button>
-					
-					<p>* If you have a discount code, enter it above and click Apply.</p>
-				
-				</div>
 	
 			    <div id='billing-address'>
 			    

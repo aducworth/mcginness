@@ -22,12 +22,18 @@
 				<ul>
 					<li><a href='/home'>Home</a></li>
 					<li style='width: 19%;'><a href='/build'>Build Your Cabinets</a></li>
+					<li><a href='/guide'>Guide</a></li>
 					<li><a href='/faq'>FAQS</a></li>
 					<li><a href='/about'>About Us</a></li>
-					<li><a href='/contact'>Contact Us</a></li>
 				</ul>
 			</nav>
 	
+			<? if( count( $_SESSION['cart'] ) > 0  ): ?>
+			
+				<a href='/cart' class='cart'></a>
+				
+			<? endif; ?>
+			
 			<div class='get-in-touch'><span>Get In Touch</span>303.319.3797</div>
 		</div>
 		
