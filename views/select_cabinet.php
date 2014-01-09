@@ -446,21 +446,25 @@
 					if( isNaN( size ) ) {
 						
 						$('.errors').html( '<p>' + ucfirst( tovalidate[i] ) + ' is not a valid number.</p>' );
+						$.colorbox.resize();
 						return false;
 	
 					} else if( limit > 0 && size > 0 && size > limit ) {
 						
 						$('.errors').html( '<p>' + ucfirst( tovalidate[i] ) + ' has a limit of ' + limit + ' for this product.</p>' );
+						$.colorbox.resize();
 						return false;
 						
 					} else if( lower > 0 && size > 0 && size < lower ) {
 						
 						$('.errors').html( '<p>' + ucfirst( tovalidate[i] ) + ' has a minimum of ' + lower + ' for this product.</p>' );
+						$.colorbox.resize();
 						return false;
 						
 					} else if( size <= 0 ) {
 						
 						$('.errors').html( '<p>Please enter a value for ' + ucfirst( tovalidate[i] ) + '.</p>' );
+						$.colorbox.resize();
 						return false;
 						
 					}
@@ -473,6 +477,7 @@
 			if( $('.add-end-panel').length > 0 && $('.add-end-panel').val() > 0 && $('.end-panel-quantity').val() <= 0 ) {
 			
 				$('.errors').html( '<p>Please enter a quantity for end panels or choose no end panel.</p>' );
+				$.colorbox.resize();
 				return false;				
 				
 			}
@@ -480,6 +485,7 @@
 			if( $('.add-shelves').is(':checked') && $('.shelf-quantity').val() <= 0 ) {
 				
 				$('.errors').html( '<p>Please enter a quantity for shelves or uncheck the box to add shelves.</p>' );
+				$.colorbox.resize();
 				return false;
 			}
 			
@@ -489,13 +495,14 @@
 			if( quantity <= 0 ) {
 				
 				$('.errors').html( '<p>Please choose a quantity.</p>' );
+				$.colorbox.resize();
 				return false;
 				
 			}
 			
 			$('.errors').html( '' );
 			
-			$.fn.colorbox.resize({});
+			$.colorbox.resize();
 			
 			return true;
 
