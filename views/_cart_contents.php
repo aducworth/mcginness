@@ -272,9 +272,13 @@
 			</th>
 		</tr>
 		<tr>
-			<td colspan='4' class='last shipping-note'>* Shipping rates are determined after shipping address is entered <? if( !$_GET['edit'] ): ?>
+			<td colspan='4' class='last shipping-note'>
+				* Shipping rates are determined after shipping address is entered 
+					<? if( !$_GET['edit'] ): ?>
 					( <a href='#' id='refresh-rates'>refresh</a> )
-				<? endif; ?>.</td>
+					<? endif; ?>.<br>
+				* Shipping time is 5-10 days via UPS Ground.
+			</td>
 		</tr>
 	</table>
 	
