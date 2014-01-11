@@ -747,6 +747,7 @@ section.home-steps a:hover {
 	color: #9494a3;
 	border-radius: 2px;
 	background: #fff;
+	border: 1px #9494a3 solid;
 }
 
 .ordering-options label {
