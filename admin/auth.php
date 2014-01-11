@@ -3,7 +3,7 @@
 class Auth {
 	
 	var $menu = array( 
-						'site_content' => array( 'slides' => 'List Slides' ),
+						'site_content' => array( 'slides' => 'List Slides', 'faqs' => 'FAQ' ),
 						'products' => array( 'products' => 'List Products', 'product' => 'Add Product' ),
 						'product_config' => array( 'profiles' => 'List Profiles', 'wood_types' => 'List Wood Types', 'colors' => 'List Colors'),
 						'orders' => array( 'orders' => 'List Orders', 'discounts' => 'List Discounts', 'storeoptions' => 'Store Options' ),
@@ -15,7 +15,7 @@ class Auth {
 	
 	var $user_types = array( 0 => 'Editor', 1 => 'Administrator' );
 	
-	var $show_search = array( 'orders', 'products', 'colors', 'profiles', 'wood_types', 'discounts', 'users' );
+	var $show_search = array( 'orders', 'products', 'colors', 'profiles', 'wood_types', 'discounts', 'users', 'slides', 'faqs' );
 	
 	var $allow = array( 'login', 'db_setup' );
 

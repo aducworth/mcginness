@@ -186,12 +186,26 @@ class AppController {
 	}
 	
 	public function orders() {
+        
+            $this->db->table = 'orders';
+            
+            if( $_GET['search'] ) {
+                    
+                    $where = " where billing_name like '%" . $_GET['search'] . "%'";
+                    
+            }
+                    
+            $this->results = $this->db->retrieve('all','*',$where . ' order by created desc'); 
+                    
+    }
 	
-		$this->db->table = 'orders';
+	public function faqs() {
+	
+		$this->db->table = 'faqs';
 		
 		if( $_GET['search'] ) {
 			
-			$where = " where billing_name like '%" . $_GET['search'] . "%'";
+			$where = " where ( question like '%" . $_GET['search'] . "%' or answer like '%" . $_GET['search'] . "%' ) ";
 			
 		}
 			
@@ -586,6 +600,45 @@ class AppController {
 		
 	
 	}
+	
+	public function faq() {
+		
+		if( count( $_POST ) > 0 || $_FILES['image'] ) {
+			
+			$_POST['is_active'] = $_POST['is_active']?$_POST['is_active']:0;
+		
+			$this->db->table = 'faqs';
+						
+			if( !$this->message ) {
+				
+				if( $this->db->save( $_POST ) ) {
+				
+					if( !$_POST['id'] ) {
+					
+						$_POST['id'] = mysql_insert_id();
+					
+					}
+																							
+					header( 'Location: /faqs' );
+					exit;
+								
+				}
+			
+			}
+		
+		}
+		
+		if( $_GET['id'] ) {
+		
+			$this->db->table = 'faqs';
+			
+			$this->result = $this->db->retrieve( 'one', '*', ' where id = ' . $_GET['id'] ); 
+														
+		}
+		
+	
+	}
+
 	
 	public function discount() {
 		

@@ -4,7 +4,7 @@
 		
 	$db->table = 'slides';
 	
-	$slides = $db->retrieve('all','*',' order by display_order');
+	$slides = $db->retrieve('all','*',' where is_active=1 order by display_order');
 		
 ?>	
 <div class='welcome'>
@@ -21,21 +21,29 @@
 	
 	<div class='container'>
 	
+		<? if( count( $slides ) ): ?>
+	
 		<ul class='gallery'>
 		
-			<? foreach( $slides as $slide ): ?>
-			
-			<li>
-				<a href='/_gallery_detail?ajax=true&id=<?=$slide['id'] ?>' class='gallery-item'>
-					<span class='gallery-title'><?=$slide['title'] ?></span>
-					<img src='/images/uploads/thumbnails/<?=$slide['image'] ?>'>
-					<span class='gallery-teaser'><?=$slide['teaser'] ?></span>
-				</a>
-			</li>
-			
-			<? endforeach; ?>
+				<? foreach( $slides as $slide ): ?>
+				
+				<li>
+					<a href='/_gallery_detail?ajax=true&id=<?=$slide['id'] ?>' class='gallery-item'>
+						<span class='gallery-title'><?=$slide['title'] ?></span>
+						<img src='/images/uploads/thumbnails/<?=$slide['image'] ?>'>
+						<span class='gallery-teaser'><?=$slide['teaser'] ?></span>
+					</a>
+				</li>
+				
+				<? endforeach; ?>
 			
 		</ul>
+		
+		<? else: ?>
+		
+			<p>Nothing has been added to the gallery yet.</p>
+		
+		<? endif; ?>
 		
 	</div>
 		

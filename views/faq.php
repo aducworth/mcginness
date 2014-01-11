@@ -1,3 +1,12 @@
+<?
+
+	$db = new DB;
+		
+	$db->table = 'faqs';
+	
+	$faqs = $db->retrieve('all','*',' where is_active=1 order by display_order');
+		
+?>	
 <div class='welcome'>
 			
 	<h1>Frequently Asked Questions</h1>
@@ -12,18 +21,26 @@
 
 	<div class='container'>
 
+		<? if( count( $faqs ) ): ?>
+		
 		<ul class='faq-list'>
 		
-			<? for( $i=0;$i<10;$i++ ): ?>
+			<? foreach( $faqs as $faq ): ?>
 			
 			<li>
-				<span class='question'>Here is a commonly asked question?</span>
-				<span class='answer'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span>
+				<span class='question'><?=$faq['question'] ?></span>
+				<span class='answer'><?=$faq['answer'] ?></span>
 			</li>
 			
-			<? endfor; ?>
+			<? endforeach; ?>
 			
 		</ul>
+		
+		<? else: ?>
+		
+			<p>No faqs have been added yet.</p>
+		
+		<? endif; ?>
 		
 	</div>
 

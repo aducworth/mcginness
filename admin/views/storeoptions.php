@@ -5,7 +5,7 @@
 <? foreach( $controller->store_options as $so ): ?>
 
     <input type='hidden' name='id[]' value='<?=$so['id'] ?>'/>
-    <?=$form->textbox( 'name[]', array( 'label' => $so['option_name'], 'default' => $so['option_value'] ) ) ?><br>
+    <?=$form->textbox( 'name[]', array( 'label' => ucwords( str_replace( '_', ' ', $so['option_name'] ) ), 'default' => $so['option_value'] ) ) ?><br>
 
 <? endforeach; ?>
 
