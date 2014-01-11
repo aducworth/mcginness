@@ -8,6 +8,8 @@ class Store {
 	
 	var $product_types = array( 1 => 'Base Cabinets', 2 => 'Upper Cabinets', 3 => 'Specialty', 4 => 'Accessories' );
 	
+	var $overweight_packages = 0;
+	
 	var $product_subcategories = array( 1 => array(
 											1 => '1 Door',
 											2 => '2 Door',
@@ -466,6 +468,8 @@ class Store {
 
 	  $packages = array();
 	  
+	  $this->overweight_packages = 0;
+	  
 	  foreach( $this->product_types as $id => $type ) {
 		
 	  	if( count( $_SESSION['cart'][ $id ] ) > 0 ) {
@@ -476,23 +480,33 @@ class Store {
 		  	  
 		  	  for( $i=0;$i<$item['quantity'];$i++ ) {
 		  	  
-				  $packaging1['Code'] = '02';
-			      $packaging1['Description'] = 'Rate';
-			      $package1['PackagingType'] = $packaging1;
-			      $dunit1['Code'] = 'IN';
-			      $dunit1['Description'] = 'inches';
-			      $dimensions1['Length'] = 36;
-			      $dimensions1['Width'] = 6;
-			      $dimensions1['Height'] = 42;
-			      $dimensions1['UnitOfMeasurement'] = $dunit1;
-			      $package1['Dimensions'] = $dimensions1;
-			      $punit1['Code'] = 'LBS';
-			      $punit1['Description'] = 'Pounds';
-			      $packageweight1['Weight'] = $weight;
-			      $packageweight1['UnitOfMeasurement'] = $punit1;
-			      $package1['PackageWeight'] = $packageweight1;
-			      
-			      $packages[] = $package1;
+		  	  	  // do not add packages over 150 lbs because rates aren't available
+		  	  	  // we'll use flat rates for these
+		  	  	  if( $weight < 150 ) {
+			  	  	  
+			  	  	  $packaging1['Code'] = '02';
+				      $packaging1['Description'] = 'Rate';
+				      $package1['PackagingType'] = $packaging1;
+				      $dunit1['Code'] = 'IN';
+				      $dunit1['Description'] = 'inches';
+				      $dimensions1['Length'] = 36;
+				      $dimensions1['Width'] = 6;
+				      $dimensions1['Height'] = 42;
+				      $dimensions1['UnitOfMeasurement'] = $dunit1;
+				      $package1['Dimensions'] = $dimensions1;
+				      $punit1['Code'] = 'LBS';
+				      $punit1['Description'] = 'Pounds';
+				      $packageweight1['Weight'] = $weight;
+				      $packageweight1['UnitOfMeasurement'] = $punit1;
+				      $package1['PackageWeight'] = $packageweight1;
+				      
+				      $packages[] = $package1;
+			  	  	  
+		  	  	  } else {
+			  	  	  
+			  	  	  $this->overweight_packages++;
+			  	  	  
+		  	  	  }				  
 		      
 		      }
 		      
@@ -573,11 +587,22 @@ class Store {
 	    	
 	    }
 	    
+	    //print_r( $resp );
+	    
 	    foreach( $resp->RatedShipment as $option ) {
+	    
+	    	$rate = $option->TotalCharges->MonetaryValue;
+	    	
+	    	// check for any overweight packages that weren't included
+	    	if( $this->overweight_packages > 0 ) {
+		    	
+		    	$rate += ( $this->overweight_packages * $this->store_options['overweight_flat_rate'] );
+		    	
+	    	}
 	    
 	    	$data = array( 
 	    						'name' => $shipping_codes[ $option->Service->Code ],
-	    						'rate' => $option->TotalCharges->MonetaryValue
+	    						'rate' => $rate
 	    						); 
 		    
 //		    echo( '<p>' );
@@ -587,11 +612,21 @@ class Store {
 		    $toreturn['rates'][ $shipping_codes[ $option->Service->Code ] ] = $data;
 		    
 	    }
-	
+	    	
 	  }
 	  catch(Exception $ex)
 	  {
 	  	//print_r ($ex);
+	  	
+	  	// check to make sure it's not only overweight packages
+	    if( !isset( $toreturn['rates']['Ground'] ) && $this->overweight_packages > 0 ) {
+		    
+		    $toreturn['rates']['Ground'] = array( 'name' => 'Ground', 'rate' => ( $this->overweight_packages * $this->store_options['overweight_flat_rate'] ) );
+		    
+	    }
+	    
+	  	return $toreturn;
+	  	
 	  }
 	  
 	  return $toreturn;
