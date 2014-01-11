@@ -227,6 +227,20 @@ class AppController {
 			
 	}
 	
+	public function slides() {
+	
+		$this->db->table = 'slides';
+		
+		if( $_GET['search'] ) {
+			
+			$where = " where title like '%" . $_GET['search'] . "%'";
+			
+		}
+			
+		$this->results = $this->db->retrieve('all','*',$where . ' order by title'); 
+			
+	}
+	
 	public function profiles() {
 	
 		$this->db->table = 'profiles';
@@ -782,6 +796,75 @@ class AppController {
 		if( $_GET['id'] ) {
 		
 			$this->db->table = 'wood_types';
+			
+			$this->result = $this->db->retrieve( 'one', '*', ' where id = ' . $_GET['id'] ); 
+														
+		}
+		
+	
+	}
+	
+	public function slide() {
+		
+		if( count( $_POST ) > 0 || $_FILES['image'] ) {
+			
+			$_POST['is_active'] = $_POST['is_active']?$_POST['is_active']:0;
+		
+			$this->db->table = 'slides';
+			
+			if( is_uploaded_file( $_FILES['image']['tmp_name'] ) ) {
+				
+				if( $_FILES['image']['type'] == 'image/jpeg' ) {
+										
+					$_POST['image'] = time() . $this->clean_filename( $_FILES['image']['name'] );
+					
+					$path = str_replace( 'admin', '', getcwd() ) . 'images/uploads/';
+					
+					move_uploaded_file( $_FILES['image']['tmp_name'], $path . 'tmp/' . $_POST['image'] ); 
+					
+					//$size = getimagesize( $this->site_url . '/images/uploads/tmp/' . $_POST['image'] ); 
+														
+					$resizeObj = new resize( $path . 'tmp/' . $_POST['image'] );
+					$resizeObj -> resizeImage( 183, 117, 'crop' );
+					$resizeObj -> saveImage( $path . 'thumbnails/' . $_POST['image'], 100 );
+					
+					//$resizeObj = new resize( $path . 'tmp/' . $_POST['image'] );
+					$resizeObj -> resizeImage( 984, 610, 'crop' );
+					$resizeObj -> saveImage( $path . 'resize/' . $_POST['image'], 100 );
+					
+					//print_r( $_POST );
+										
+				} else {
+					
+					$this->message = 'Invalid type of image. Please use a jpg.';
+					$_GET['id'] = $_POST['id'];
+					
+				}
+			
+			}
+			
+			if( !$this->message ) {
+				
+				if( $this->db->save( $_POST ) ) {
+				
+					if( !$_POST['id'] ) {
+					
+						$_POST['id'] = mysql_insert_id();
+					
+					}
+																							
+					header( 'Location: /slides' );
+					exit;
+								
+				}
+			
+			}
+		
+		}
+		
+		if( $_GET['id'] ) {
+		
+			$this->db->table = 'slides';
 			
 			$this->result = $this->db->retrieve( 'one', '*', ' where id = ' . $_GET['id'] ); 
 														

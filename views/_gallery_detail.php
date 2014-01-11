@@ -1,18 +1,32 @@
+<?
+
+	$db = new DB;
+		
+	$db->table = 'slides';
+	
+	$slide = $db->retrieve('one','*',' where id = ' . $_GET['id'] );	
+	
+?>	
 <div class='gallery-detail'>
 
-	<img src='/images/gallery_image.jpg'/>
+	<img src='/images/uploads/resize/<?=$slide['image'] ?>'/>
 	
 	<div class='gallery-detail-description'>
 		
-		<h1>Title of Image</h1>
+		<h1><?=$slide['title'] ?></h1>
 		
-		<p>This is a description of the image and an area for a bulletted list of all the things happening and options in the photo.</p>
+		<p><?=$slide['description'] ?></p>
 
+		<? $bullet_points = explode( "\n", $slide['bullet_points'] ); ?>
+		
 		<ul>
-			<li>Cabinet door</li>
-			<li>Option in list 2</li>
-			<li>Option in list 3</li>
-			<li>Option in list 4</li>
+		
+			<? foreach( $bullet_points as $bp ): ?>
+							
+				<li><?=$bp ?></li>
+				
+			<? endforeach; ?>
+
 		</ul>
 		
 	</div>

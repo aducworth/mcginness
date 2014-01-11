@@ -3,6 +3,7 @@
 class Auth {
 	
 	var $menu = array( 
+						'site_content' => array( 'slides' => 'List Slides' ),
 						'products' => array( 'products' => 'List Products', 'product' => 'Add Product' ),
 						'product_config' => array( 'profiles' => 'List Profiles', 'wood_types' => 'List Wood Types', 'colors' => 'List Colors'),
 						'orders' => array( 'orders' => 'List Orders', 'discounts' => 'List Discounts', 'storeoptions' => 'Store Options' ),
