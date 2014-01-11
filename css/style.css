@@ -1145,6 +1145,24 @@ select.quantity {
 	margin: 20px 0;
 }
 
+#newsletter-signup {
+	padding: 20px;
+}
+
+#newsletter-signup input {
+	height: 30px;
+	line-height: 30px;
+	width: 210px;
+	color: #9494a3;
+	font-size: 14px;
+	border: 1px solid;
+	border-radius: 2px;
+}
+
+#newsletter-signup h1 {
+	font-size: 20px;
+}
+
 .order-review {
 	font-family: Helvetica;
 }

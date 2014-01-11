@@ -23,7 +23,7 @@
 			
 				<span>Be in the know about new products & special updates.</span>
 				
-				<a href='#'>Email Signup</a>
+				<a href='/_email_signup?ajax=true' class='colorbox'>Email Signup</a>
 			
 			</div>
 			
