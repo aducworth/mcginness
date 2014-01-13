@@ -29,7 +29,7 @@
 	        
 	        	<? if( $order['tracking_number'] ): ?>
 	            
-	            	<a href='http://www.fedex.com/Tracking?clienttype=dotcom&initial=n&ascend_header=1&sum=n&cntry_code=us&language=english&tracknumber_list=<?=$order['tracking_number'] ?>&mi=n&spnlk=spnl0&track_number_0=<?=$order['tracking_number'] ?>&track_number_replace_0=<?=$order['tracking_number'] ?>' title='Track Shipment' target='_blank'>
+	            	<a href='http://wwwapps.ups.com/WebTracking/track?track=yes&trackNums=<?=$order['tracking_number'] ?>' title='Track Shipment' target='_blank'>
 	                
 	                	<img src='http://<?=$_SERVER['SERVER_NAME'] . ( $_SERVER['SERVER_PORT']?':'.$_SERVER['SERVER_PORT']:'') ?>/images/ups_logo.png' alt='Fedex' border='0'/>
 	                
