@@ -44,7 +44,7 @@
 				
 			<div class='cart-contents'>
 			
-				<p>Loading...</p>
+				<? include('views/_cart_contents.php') ?>
 				
 			
 			</div>

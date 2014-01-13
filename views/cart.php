@@ -6,7 +6,8 @@
 		
 		<div class='cart-contents'>
 		
-			<p>Loading...</p>			
+			<? $_GET['edit'] = 'true'; ?>
+			<? include('views/_cart_contents.php') ?>		
 		
 		</div>
 		

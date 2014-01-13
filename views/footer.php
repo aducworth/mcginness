@@ -207,13 +207,13 @@
 			
 			<? if( $action == 'cart' ): ?>
 			
-				$('.cart-contents').load('/_cart_contents?ajax=true&edit=true');
+				//$('.cart-contents').load('/_cart_contents?ajax=true&edit=true');
 				
 			<? endif; ?>
 			
 			<? if( $action == 'checkout' ): ?>
 			
-				$('.cart-contents').load('/_cart_contents?ajax=true');
+				//$('.cart-contents').load('/_cart_contents?ajax=true');
 				
 				$('.shipping-info').change(function(){
 					
