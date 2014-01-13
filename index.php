@@ -9,6 +9,7 @@ include( 'admin/form.php' );
 include( 'admin/store.php' );
 
 $action = $_GET['url']?$_GET['url']:'index';
+$url_parts = explode( '/', $_GET['url'] );
 
 //$secure_pages = array( 'checkout' );
 //	
@@ -25,6 +26,20 @@ $action = $_GET['url']?$_GET['url']:'index';
 //	header( "Location: http://www.boxworkcabinets.com/" . (($action=='home')?'':$action) ); 
 //	
 //}
+
+// check for success and response urls
+if( strstr( $action, 'checkout' ) ) {
+	
+	$action = 'checkout';
+	
+}
+
+// check for order confirmation
+if( strstr( $action, 'thanks' ) ) {
+	
+	$action = 'thanks';
+	
+}
 
 
 if( !$_GET['ajax'] ) {

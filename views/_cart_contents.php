@@ -57,6 +57,12 @@
 	$product_list = $db->retrieve('pair','id,name');
 	
 	//unset( $_SESSION['cart'] );
+	
+	if( $_GET['errorMsg']  ) {
+	
+		$code_message .= $_GET['errorMsg'];
+		
+	}
 			
 ?>	
 

@@ -633,83 +633,87 @@ class Store {
   
   }
   
-  public function processCard() {
+  public function processCard( $card_no, $order_id ) {
 	  
-	  return array( 'response' => true, 'error' => '' );
+	  // error simulation
+	  //header( 'Location: /checkout/error/' . md5( $order_id ) . '/?errorMsg=We could not process your card.' );
+	  //exit;
+	  
+	  // success simulation
+	  header( 'Location: /thanks/' . md5( $order_id ) . '/' );
+	  exit;
+	  
+  }
+  
+  public function handleSuccess( $order_id ) {  	
+  	
+  	$this->confirmationEmail( $order_id );
+  	
+  	// reset cart
+  
+  }
+  
+  public function deleteOrder( $order_id ) {
+	  
+	  $this->db->query( "delete from orders where md5( id ) = '" . $order_id . "'" );
+	  $this->db->query( "delete from order_items where md5( order_id ) = '" . $order_id . "'" );
 	  
   }
   
   public function processOrder( ) {
 	
 		// try to process the card
-		if( $_POST['total'] > 0 ) {
+		if( $_POST['total'] <= 0 ) {
 			
-			// added to account for in store cash orders
-			if( $_POST['card_no'] == '1234__BOXWORK' ) {
-				
-				$_POST['card_type'] = 'TEST';
-				$processed['response'] = true;
-				
-			} else {
-		
-				$processed = $this->processCard( );
-				
-			}
-			
-		} else {
-		
-			$processed['response'] 	= false;
-			$processed['error'] 	= 'Your cart total is 0.';
+			// redirect if trying to checkout with nothing in the cart
+			header( 'Location: /checkout/error/?errorMsg=Your cart total is 0.' );
+			exit;
 			
 		}
 		
-		// if it processes, save the order first
-		if( $processed['response'] == true ) {
+		// format a few items
+		$order_items = $_POST['order_items'];
+		$_POST['exp_date'] = $_POST['exp_mo'] . ' / ' . $_POST['exp_year'];
 		
-			// format a few items
-			$order_items = $_POST['order_items'];
-			$_POST['exp_date'] = $_POST['exp_mo'] . ' / ' . $_POST['exp_year'];
-			
-			unset( $_POST['order_items'] );
-			unset( $_POST['card_no'] );
-			unset( $_POST['exp_mo'] );
-			unset( $_POST['exp_year'] );
+		$card_no = $_POST['card_no'];
 		
-			$this->db->table = 'orders';
-			
-			$this->db->save( $_POST );
-			
-			$order_id = mysql_insert_id();
-			
-			$this->db->table = 'order_items';
-			
-			foreach( $order_items as $item ) {
-				
-				$item['order_id'] = $order_id;
-				 
-				$this->db->save( $item );
-			
-			}
-			
-			// send confirmation emails
-			$to = $_POST['billing_email'];
-			$subject = 'Order: ' . md5( $order_id );
-			$body = file_get_contents('http://' . $_SERVER['SERVER_NAME'] . '/review?order=' . md5( $order_id ) . '&ajax=true' );
-			$this->send_mail( $to, $body, $subject, 'store@boxworkcabinets.com', 'Boxwork Store' );
-			
-			// reset the cart
-			//$_SESSION['cart'] = array();
-			
-			// return the success
-			return array( 'result' => true, 'success' => md5( $order_id ) );
-			
+		unset( $_POST['order_items'] );
+		unset( $_POST['card_no'] );
+		unset( $_POST['exp_mo'] );
+		unset( $_POST['exp_year'] );
+	
+		$this->db->table = 'orders';
 		
-		} else {
+		$this->db->save( $_POST );
 		
-			return array( 'result' => false, 'error' => $processed['responsetext'] );
+		$order_id = mysql_insert_id();
+		
+		$this->db->table = 'order_items';
+		
+		foreach( $order_items as $item ) {
+			
+			$item['order_id'] = $order_id;
+			 
+			$this->db->save( $item );
 		
 		}
+		
+		// now try to process the card
+		$this->processCard( $card_no, $order_id );
 			
+	}
+	
+	public function confirmationEmail( $order_id ) {
+	
+		$this->db->table = 'orders';
+		$order_info = $this->db->retrieve('one','*'," where md5( id ) = '" . $order_id . "'");
+	
+		// send confirmation emails
+		$to = $order_info['billing_email'];
+		$subject = 'Order: ' . $order_id;
+		$body = file_get_contents('http://' . $_SERVER['SERVER_NAME'] . '/review?order=' . $order_id . '&ajax=true' );
+		$this->send_mail( $to, $body, $subject, 'store@boxworkcabinets.com', 'Boxwork Store' );
+		
 	}
 	
 	public function send_mail($to, $body, $subject, $fromaddress, $fromname, $attachments=false)

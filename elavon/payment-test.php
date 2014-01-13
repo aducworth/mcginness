@@ -1,3 +1,4 @@
+asdf
 <?php
 
 
@@ -36,7 +37,7 @@ $fields = array(
 
 //modify the value below from xxx to the location of your error script
 
-'ssl_error_url' => 'http://localhost:8888/error.php',
+'ssl_error_url' => 'http://localhost:8888/checkout/error/12345/',
 
 //modify the value below from xxx to the location of your receipt script
 
@@ -96,9 +97,13 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
+curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+
 //perform the curl post and store the result
 
 $result = curl_exec($ch);
+
+print_r( $result );
 
 //close the curl session
 
