@@ -694,7 +694,7 @@ class Store {
 			// send confirmation emails
 			$to = $_POST['billing_email'];
 			$subject = 'Order: ' . md5( $order_id );
-			$body = file_get_contents('http://' . $_SERVER['SERVER_NAME'] . ( $_SERVER['SERVER_PORT']?':'.$_SERVER['SERVER_PORT']:'') . '/review?order=' . md5( $order_id ) . '&ajax=true' );
+			$body = file_get_contents('http://' . $_SERVER['SERVER_NAME'] . '/review?order=' . md5( $order_id ) . '&ajax=true' );
 			$this->send_mail( $to, $body, $subject, 'store@boxworkcabinets.com', 'Boxwork Store' );
 			
 			// reset the cart

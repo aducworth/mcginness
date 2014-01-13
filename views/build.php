@@ -58,7 +58,7 @@
 					
 					<ul>
 						<? foreach( $profiles as $p ): ?>
-							<li class='visible-option'><a href='#' class='door-and-drawer <?=($_SESSION['drawer-and-door'] == $p['id'])?'selected':'' ?>' data-value='<?=$p['id'] ?>'><img src='/images/base-cabinet.jpg'/><span><?=$p['name'] ?></span></a></li>
+							<li class='visible-option'><a href='#' class='door-and-drawer <?=($_SESSION['drawer-and-door'] == $p['id'])?'selected':'' ?>' data-value='<?=$p['id'] ?>'><img src='<?=$p['image']?('/images/uploads/thumbnails/'.$p['image']):'/images/base-cabinet.jpg' ?>'/><span><?=$p['name'] ?></span></a></li>
 						<? endforeach; ?>
 					</ul>
 					
@@ -178,7 +178,18 @@
 					
 					<ul>
 						<? foreach( $upper_cabinets as $uc ): ?>
-							<li class='visible-option'><a href='/select_cabinet?ajax=true&product=<?=$uc['id'] ?>' class='colorbox'><img src='/images/base-cabinet.jpg'/><span><?=$uc['name'] ?></span></a></li>
+							<li class='visible-option'><a href='/select_cabinet?ajax=true&product=<?=$uc['id'] ?>' class='colorbox'>
+								<? if( $uc['image'] ): ?>
+								
+									<img src='/images/uploads/resize/<?=$uc['image'] ?>'/>
+									
+								<? else: ?>
+								
+									<img src='/images/base-cabinet.jpg'/>
+								
+								<? endif; ?>
+								
+								<span><?=$uc['name'] ?></span></a></li>
 						<? endforeach; ?>
 					</ul>
 					
@@ -194,7 +205,19 @@
 					
 					<ul>
 						<? foreach( $specialty_cabinets as $sc ): ?>
-							<li class='visible-option'><a href='/select_cabinet?ajax=true&product=<?=$sc['id'] ?>' class='colorbox'><img src='/images/base-cabinet.jpg'/><span><?=$sc['name'] ?></span></a></li>
+							<li class='visible-option'><a href='/select_cabinet?ajax=true&product=<?=$sc['id'] ?>' class='colorbox'>
+							
+								<? if( $sc['image'] ): ?>
+								
+									<img src='/images/uploads/resize/<?=$sc['image'] ?>'/>
+									
+								<? else: ?>
+								
+									<img src='/images/base-cabinet.jpg'/>
+								
+								<? endif; ?>
+								
+								<span><?=$sc['name'] ?></span></a></li>
 						<? endforeach; ?>
 					</ul>
 					
@@ -224,7 +247,19 @@
 					
 					<ul>
 						<? foreach( $accessories as $a ): ?>
-							<li class='visible-option'><a href='/select_cabinet?ajax=true&product=<?=$a['id'] ?>' class='colorbox'><img src='/images/base-cabinet.jpg'/><span><?=$a['name'] ?></span></a></li>
+							<li class='visible-option'><a href='/select_cabinet?ajax=true&product=<?=$a['id'] ?>' class='colorbox'>
+							
+							<? if( $a['image'] ): ?>
+								
+								<img src='/images/uploads/resize/<?=$a['image'] ?>'/>
+								
+							<? else: ?>
+							
+								<img src='/images/base-cabinet.jpg'/>
+							
+							<? endif; ?>
+							
+							<span><?=$a['name'] ?></span></a></li>
 						<? endforeach; ?>
 					</ul>
 					

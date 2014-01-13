@@ -39,7 +39,7 @@ class AppController {
 		$this->db = $this->auth->db;
 		
 		$this->filepath = getcwd();
-		$this->site_url = 'http://' . str_replace( 'admin.', '', $_SERVER['SERVER_NAME'] );
+		$this->site_url = 'http://' . str_replace( 'admin.', 'www.', $_SERVER['SERVER_NAME'] );
 		
 		if( $this->db->connection && $_GET['url'] != 'db_setup' ) {
 							

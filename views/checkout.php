@@ -22,7 +22,7 @@
 		
 			<h1>Thank you for your order!</h1>
 	
-			<p>You should receive an email shortly for your records, or you can review your purchase at any time by checking <a href='http://<?=$_SERVER['SERVER_NAME'] . ( $_SERVER['SERVER_PORT']?':'.$_SERVER['SERVER_PORT']:'') ?>/review?order=<?=$processed['success'] ?>'>here</a>.</p>
+			<p>You should receive an email shortly for your records, or you can review your purchase at any time by checking <a href='http://<?=$_SERVER['SERVER_NAME'] ?>/review?order=<?=$processed['success'] ?>'>here</a>.</p>
 			
 		<? else: ?>
 		
