@@ -640,8 +640,156 @@ class Store {
 	  //exit;
 	  
 	  // success simulation
-	  header( 'Location: /thanks/' . md5( $order_id ) . '/' );
-	  exit;
+	  //header( 'Location: /thanks/' . md5( $order_id ) . '/' );
+	  //exit;
+	  
+	  	$billing_name = $_POST['billing_name'];
+	  	$billing_first = trim( substr($billing_name, 0, strpos($billing_name,' ')) );
+	  	$billing_last = trim( substr($billing_name, strpos($billing_name,' ')) );
+	  	
+	  	$shipping_name = $_POST['shipping_name'];
+	  	$shipping_first = trim( substr($shipping_name, 0, strpos($shipping_name,' ')) );
+	  	$shipping_last = trim( substr($shipping_name, strpos($shipping_name,' ')) );
+	  
+	    $url = 'https://demo.myvirtualmerchant.com/VirtualMerchantDemo/process.do';
+
+		//Modify the values from xxx to your own account ID, user ID, and PIN
+		
+		//Additional fields can be added as necessary to support custom fields
+		
+		//or required fields configured in the Virtual Merchant terminal
+		
+		$fields = array(
+		
+			'ssl_merchant_id'=>'004763',
+			
+			//Vi rtualMerchant Developer's Guide.docx Page 138 of 152
+			
+			'ssl_user_id'=>'webpage',
+			
+			'ssl_pin'=>'W1T3CQ',
+			
+			'ssl_show_form'=>'false',
+			
+			'ssl_result_format'=>'html',
+			
+			'ssl_test_mode'=>'false',
+			
+			'ssl_receipt_apprvl_method'=>'redg',
+			
+			//modify the value below from xxx to the location of your error script
+			
+			//'ssl_error_url' => 'http://localhost:8888/checkout/error/' . md5( $order_id ) . '/',
+			'ssl_error_url' => 'https://www.boxworkcabinets.com/checkout/error/' . md5( $order_id ) . '/',
+			
+			//modify the value below from xxx to the location of your receipt script
+			
+			//'ssl_receipt_apprvl_get_url' => 'http://localhost:8888/thanks/' . md5( $order_id ) . '/',
+			'ssl_receipt_apprvl_get_url' => 'http://www.boxworkcabinets.com/thanks/' . md5( $order_id ) . '/',
+			
+			'ssl_transaction_type'=>urlencode('ccsale'),
+			
+			//'ssl_amount'=>urlencode( $_POST['total'] ),
+			'ssl_amount'=>urlencode( '1.00' ),
+			
+			'ssl_card_number'=>urlencode( $card_no ),
+			
+			'ssl_exp_date'=>urlencode( $_POST['exp_date'] ),
+			
+			'ssl_cvv2cvc2_indicator'=>urlencode($ssl_cvv2cvc2_indicator),
+			
+			'ssl_cvv2cvc2'=>urlencode('123'),
+			
+			'ssl_customer_code'=>urlencode( $_POST['billing_email'] ),
+			
+			'ssl_invoice_number'=>urlencode( $order_id ),
+			
+			'ssl_first_name'=>urlencode( $billing_first ),
+			
+			'ssl_last_name'=>urlencode( $billing_last ),
+			
+			'ssl_avs_address'=>urlencode( $_POST['billing_address1'] ),
+			
+			'ssl_avs_zip'=>urlencode( $_POST['billing_zipcode'] ),
+			
+			'ssl_city'=>urlencode( $_POST['billing_city'] ),
+			
+			'ssl_state'=>urlencode( $_POST['billing_state'] ),
+			
+			'ssl_country'=>'USA',
+			
+			'ssl_phone'=>urlencode( $_POST['billing_phone'] ),
+			
+			'ssl_email'=>urlencode( $_POST['billing_email'] ),
+			
+			'ssl_ship_to_first_name'=>urlencode( $shipping_first ),
+			
+			'ssl_ship_to_last_name'=>urlencode( $shipping_last ),
+			
+			'ssl_ship_to_address1'=>urlencode( $_POST['shipping_address1'] ),
+			
+			'ssl_ship_to_zip'=>urlencode( $_POST['shipping_zipcode'] ),
+			
+			'ssl_ship_to_city'=>urlencode( $_POST['shipping_city'] ),
+			
+			'ssl_ship_to_state'=>urlencode( $_POST['shipping_state'] ),
+			
+			'ssl_ship_to_country'=>'USA'
+		
+		);
+		
+		//print_r( $fields );
+		//exit;
+		
+		//initialize the post string variable
+		
+		$fields_string = '';
+		
+		//build the post string
+		
+		foreach($fields as $key=>$value) { $fields_string .=$key.'='.$value.'&'; }
+		
+		rtrim($fields_string, "&");
+		
+		//open curl session
+		
+		$ch = curl_init();
+		
+		//begin seting curl options
+		
+		//set URL
+		
+		curl_setopt($ch, CURLOPT_URL, $url);
+		
+		//set method
+		
+		curl_setopt($ch, CURLOPT_POST, 1);
+		
+		//Vi rtualMerchant Developer's Guide.docx Page 139 of 152
+		
+		//set post data string
+		
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+		
+		//these two options are frequently necessary to avoid SSL errors with PHP
+		
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		
+		//curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		
+		//perform the curl post and store the result
+		
+		$result = curl_exec($ch);
+		
+		//close the curl session
+		
+		curl_close($ch);
+		
+		//a nice message to prevent people from seeing a blank screen
+		
+		echo "Processing, please wait...";
 	  
   }
   
@@ -673,7 +821,7 @@ class Store {
 		
 		// format a few items
 		$order_items = $_POST['order_items'];
-		$_POST['exp_date'] = $_POST['exp_mo'] . ' / ' . $_POST['exp_year'];
+		$_POST['exp_date'] = $_POST['exp_mo'] . substr( $_POST['exp_year'], 2 );
 		
 		$card_no = $_POST['card_no'];
 		
