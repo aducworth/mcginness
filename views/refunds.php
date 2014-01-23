@@ -13,6 +13,7 @@
 				<li>There are no cash refunds under any circumstances								   								   </li>
 				<li>Any deposits on projects are non-refundable.									   								   </li>
 				<li>Contact us for any replacement of damaged parts.								   								   </li>
+				<li>Shipping time is 5-10 days via UPS Ground.</li>
 
 			</ul>
 			

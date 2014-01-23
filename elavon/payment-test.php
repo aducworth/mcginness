@@ -126,11 +126,11 @@ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
-curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-
 //perform the curl post and store the result
 
 $result = curl_exec($ch);
+
+echo( 'testing' );
 
 print_r( $result );
 
