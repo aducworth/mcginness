@@ -290,7 +290,7 @@
 	
 	<? if( $_GET['edit'] == 'true' ): ?>
 	
-		<a href='/checkout' class='red-button'>Checkout</a>
+		<p style='display: block;'><a href='/checkout' class='red-button'>Checkout</a></p>
 			
 	<? endif; ?>
 	

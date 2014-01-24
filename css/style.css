@@ -112,7 +112,7 @@ nav ul {
 
 nav ul li {
 	float: left;
-	width: 12%;
+	width: 10%;
 	text-align: center;
 	height: 70px;
 	line-height: 70px;
@@ -495,7 +495,7 @@ section.home-steps a:hover {
 .side-panel a {
 	font-family: Helvetica;
 	font-size: 14px;
-	color: #056843;
+	color: #9b1f12;
 }
 
 .side-panel a.red-button {
@@ -971,7 +971,7 @@ select.quantity {
 }
 
 .cart-contents a {
-	color: #056839;
+	color: #9b1f12;
 }
 
 .cart-contents a.red-button {

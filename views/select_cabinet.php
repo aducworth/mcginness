@@ -95,9 +95,9 @@
 						<label>Quantity</label>
 						
 						<div class='quantity-selector'>
-							<input type='hidden' name='quantity' class='quantity-value quantity-selector-value' value='<?=$edit_info['quantity']?$edit_info['quantity']:0 ?>'/>
+							<input type='hidden' name='quantity' class='quantity-value quantity-selector-value' value='<?=$edit_info['quantity']?$edit_info['quantity']:1 ?>'/>
 							<input type='hidden' class='quantity-increment' value='1'/>
-							<div class='quantity-display'><?=$edit_info['quantity']?$edit_info['quantity']:0 ?></div>
+							<div class='quantity-display'><?=$edit_info['quantity']?$edit_info['quantity']:1 ?></div>
 							<a href='#' class='increase'>+</a>
 							<a href='#' class='decrease'>-</a>
 						</div>

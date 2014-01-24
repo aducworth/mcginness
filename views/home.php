@@ -16,7 +16,7 @@
 			
 			<span>or</span> 
 			
-			<a href='/guide' class='red-button'>Help Me Choose</a>
+			<a href='/help-me-choose' class='red-button'>Help Me Choose</a>
 		
 		</div>
 	
@@ -32,7 +32,7 @@
 				
 				<h2>Select Your Style</h2>
 				
-				<p>Choose from our wide selection of wood type & Stain color</p>
+				<p>Choose from our wide selection of door styles, wood species, and finishes.</p>
 			
 			</div>
 			
@@ -40,9 +40,9 @@
 			
 				<div class='step'>2</div>
 				
-				<h2>Select Your Specs</h2>
+				<h2>Select Cabinets and Sizes</h2>
 				
-				<p>Choose the combination of cabinets and droors to fit your Kitchen’s needs.</p>
+				<p>Choose the combination of cabinets and sizes to fit your needs.</p>
 			
 			</div>
 			

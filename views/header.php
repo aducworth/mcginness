@@ -22,7 +22,7 @@
 				<ul>
 					<li><a href='/home'>Home</a></li>
 					<li style='width: 19%;'><a href='/build'>Build Your Cabinets</a></li>
-					<li><a href='/guide'>Guide</a></li>
+					<li style='width: 17%;'><a href='/help-me-choose'>Help Me Choose</a></li>
 					<li><a href='/faq'>FAQS</a></li>
 					<li><a href='/about'>About Us</a></li>
 				</ul>
