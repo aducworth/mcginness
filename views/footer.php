@@ -39,6 +39,28 @@
 	<script>
 	
 		var verified_shipping = '';
+		
+		var color_images = [];
+		
+		<?
+			$db->table = 'color_images';
+			$color_images = $db->retrieve('all','*',' order by wood_type');
+			$current_wood = 0;
+				
+			foreach( $color_images as $ci ):
+			
+				if( $ci['wood_type']  != $current_wood ): ?>
+					
+					color_images[<?=$ci['wood_type'] ?>] = [];
+					
+<?					$current_wood = $ci['wood_type'];
+
+				endif;
+		?>
+		
+		color_images[<?=$ci['wood_type'] ?>][<?=$ci['color'] ?>] = "<?=$ci['image'] ?>";
+		
+		<?  endforeach; ?>
 	
 		$(document).ready(function(){
 		
@@ -124,6 +146,7 @@
 					
 					// find out where to update the document with the new value
 					var postData = 'id=' + $(this).attr('data-value');
+					var selected_value = $(this).attr('data-value');
 					
 					if( $(this).hasClass('door-and-drawer') ) {
 						
@@ -137,7 +160,7 @@
 						});
 						
 					} else if( $(this).hasClass('wood-type') ) {
-						
+					
 						$.ajax({
 						  url: '/_selected_wood_type?ajax=true',
 						  data: postData,
@@ -145,6 +168,17 @@
 						}).done(function(data) {												  
 							$('.selected-wood-type').html( data );
 							$('html, body').animate({scrollTop: position.top + 250}, 'slow');
+							
+							// update stain colors
+							$('.stain-color').each(function( index ) {
+						
+								if( color_images[ selected_value ][ $(this).attr('data-value') ] != 'undefined' ) {
+									
+									$(this).find('.image-holder').css('background-image','url("/images/uploads/thumbnails/'+color_images[ selected_value ][ $(this).attr('data-value') ]+'")');
+									
+								}
+								
+							});
 						});
 						
 					} else if( $(this).hasClass('stain-color') ) {
