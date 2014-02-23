@@ -17,9 +17,9 @@
 		
 		<h1>About Boxwork Cabinets</h1>
 		
-		<p>Boxwork Cabinets is the creation of master cabinet builder Chris McGinness. Chris strives to give you fair prices and quality craftsmanship with every order.</p>
-		
-		<p>Please try out our custom cabinet builder and don't hesitate to call with any questions.</p>
+		<p>Boxwork Cabinets is a Ready-To-Assemble (RTA) cabinet company. We are dedicated to making the highest quality products, which of course begins with materials. Top quality materials and hardware make a world of difference in the durability, structural quality, and aesthetics of your cabinets. As an RTA company, Boxwork Cabinets differs from the competition in our ability to offer cabinets that are custom fit to your project. We also have a wide selection of door styles and colors to choose from.</p>
+
+		<p>If you don’t see what you are looking for… …ASK! We are always expanding and looking for ways to serve our client’s needs, so if you have a specific request but cannot locate the option on our site, please bring it to our attention so we may provide you with the product that suits your needs.</p>
 				
 	</div>
 
@@ -35,7 +35,7 @@
 		
 		<p>p: 303.319.3797</p>
 		
-		<p>e: chris@mcwfurniture.com</p>
+		<p>e: info@boxworkcabinets.com</p>
 		
 		<p>8193 Citation Trl.<br>Evergreen, CO 80439</p>
 				
