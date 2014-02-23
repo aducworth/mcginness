@@ -416,7 +416,7 @@ class Store {
 	public function processRate( $name, $company, $phone, $street, $city, $state, $zipcode, $country, $residential ) {
       //create soap request
       $option['RequestOption'] = 'Shop';
-      $request['Request'] = $option;
+      $request['Request'] = "ALL";
 
       $pickuptype['Code'] = '01';
       $pickuptype['Description'] = 'Daily Pickup';
@@ -523,6 +523,191 @@ class Store {
 
       return $request;
   }
+  
+	function getFedexRates( $name, $company, $phone, $street, $city, $state, $zipcode, $country, $residential ) {
+	
+		$wsdl_path = str_replace( '/admin', '', getcwd() ) . "/fedex/wsdl/RateService_v13.wsdl";
+		include( str_replace( '/admin', '', getcwd() ) . "/fedex/library/fedex-common.php" );
+		
+		$client = new SoapClient($wsdl_path, array('trace' => 1)); // Refer to http://us3.php.net/manual/en/ref.soap.php for more information
+		
+		ini_set("soap.wsdl_cache_enabled", "0");
+		
+		$shipping = array( 'error_message'	=> NULL );
+				 		
+		/******************************************* ASSEMBLE REQUEST & SEND *********************************/
+		
+		$request['WebAuthenticationDetail'] = array(
+			'UserCredential' => array(
+				'Key' 		=> 'Jhjgu8nMtXpgEpA5', 
+				'Password' 	=> 'jZE90qC7BUYVAu93bzqMMkfVR'
+			)
+		); 
+					
+		$request['ClientDetail'] = array(
+			'AccountNumber' 	=> '423827874', 
+			'MeterNumber' 		=> '106219765'
+		);
+		
+		
+		$request['TransactionDetail'] = array(
+			'CustomerTransactionId' => ' *** Rate Request v13 using PHP *** '
+		);
+		
+		$request['Version'] = array(
+			'ServiceId' => 'crs', 
+			'Major' => '13', 
+			'Intermediate' => '0', 
+			'Minor' => '0'
+		);
+		
+		$request['ReturnTransitAndCommit'] = true;
+		
+		$request['RequestedShipment']['DropoffType'] = 'REGULAR_PICKUP'; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+		
+		$request['RequestedShipment']['ShipTimestamp'] = date('c');
+		
+		$request['RequestedShipment']['TotalInsuredValue']=array(
+			'Amount' => '100',
+			'Currency' => 'USD'
+		); 
+		
+		$request['RequestedShipment']['Shipper'] = array(
+			'Address' => array(
+					'StreetLines' => array( '8193 Citation Trl.' ),
+		            'City' => 'Evergreen',
+		            'StateOrProvinceCode' => 'CO',
+		            'PostalCode' =>  '80439',
+		            'CountryCode' => 'US',
+		            'Residential' => 0
+				)
+			);
+		
+//		if ($option_value == "SMART_POST")
+//		{
+//			$request['RequestedShipment']['SmartPostDetail'] = array( 'Indicia' => $this->plugin_settings('sp_indicia'),
+//			                                                          'AncillaryEndorsement' => $this->plugin_settings('sp_ancillary_services'),
+//			                                                          'HubId' => $this->plugin_settings('hubid'),
+//			                                                          'CustomerManifestId' => date("md0B"));
+//		}
+
+		$request['RequestedShipment']['Recipient'] = array(
+			'Address' => array(
+					'StreetLines' => array( $street ),
+		            'City' => $city,
+		            'StateOrProvinceCode' => $state,
+		            'PostalCode' => $zipcode,
+		            'CountryCode' => $country,
+		            'Residential' => ($residential?1:0)
+					)
+				);
+				
+		$request['RequestedShipment']['ShippingChargesPayment'] = array(
+			'PaymentType' => 'SENDER',
+			'Payor' => array(
+				'AccountNumber' => '423827874',
+				'CountryCode' => 'US'
+				)
+		);
+		$request['RequestedShipment']['RateRequestTypes'] = 'ACCOUNT'; 
+		
+		$request['RequestedShipment']['RateRequestTypes'] = 'LIST'; 
+		
+		$request['RequestedShipment']['PackageCount'] = 1;
+		
+		$request['RequestedShipment']['PackageDetail'] = 'INDIVIDUAL_PACKAGES';  //  Or PACKAGE_SUMMARY
+				
+	  $count = 1;
+	  
+	  foreach( $this->product_types as $id => $type ) {
+		
+	  	if( count( $_SESSION['cart'][ $id ] ) > 0 ) {
+				
+			foreach( $_SESSION['cart'][ $id ] as $index => $item ) {
+	  
+		  	  $weight = $this->calculateWeight( $item['id'], $item['width'], $item['height'], $item['depth'], $item['length'] );
+		  	  
+		  	  for( $i=0;$i<$item['quantity'];$i++ ) {
+
+					$request['RequestedShipment']['RequestedPackageLineItems'][$count-1] = 
+							array(
+							'SequenceNumber'=>$count,
+							'GroupPackageCount'=>$count,
+							'Weight' => array(
+								'Value' 	=> $weight,
+								'Units' 	=> 'LB'
+								),
+							'Dimensions' => array(
+								'Length' 	=> 36,
+								'Width' 	=> 6,
+								'Height' 	=> 42,
+								'Units' 	=> 'IN'
+								)
+							); 
+					$count ++; 
+				
+				}
+				
+			}
+			
+		  }
+		  
+		 }
+		
+		//print_r( $request );
+		
+			try 
+		{
+			if(setEndpoint('changeEndpoint'))
+			{
+				$newLocation = $client->__setLocation(setEndpoint('endpoint'));
+			}
+		
+			$response = $client->getRates($request);
+			
+			//print_r( $response );
+			
+			    if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR' && !empty($response->RateReplyDetails))
+		    {
+			 
+			        foreach ($response->RateReplyDetails as $rateReply)
+		        {
+		        		        	
+		        	$rateReply = $response -> RateReplyDetails;
+			
+			    	foreach( $rateReply as $indiv_reply ) {
+			    	
+			    		if( $indiv_reply -> ServiceType == 'GROUND_HOME_DELIVERY' || $indiv_reply -> ServiceType == 'FEDEX_GROUND' )
+			    		return array( 'rate' => $indiv_reply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount );
+			        
+			        }	
+		
+				}
+			    }
+		    else
+		    {
+				
+				return array( 'error' => 'Fedex Live Rates Error' );
+		    } 
+		} 
+		catch (SoapFault $exception) 
+		{
+		
+			return array( 'error' => $exception->faultcode ." " . $exception->faultstring );			
+			
+		}
+		
+		if ($shipping['error_message'])
+		{
+		
+			return array( 'error' => $shipping['error_message'] );
+
+		}
+		
+		// if we got to this point and nothing has been return, something must be wrong
+		return array( 'error' => 'Fedex Live Rates Error' );
+	
+	}
   
   public function getUPSRates( $name, $company, $phone, $street, $city, $state, $zipcode, $country, $residential )
   {

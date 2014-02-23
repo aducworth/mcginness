@@ -37,11 +37,13 @@
 		$_POST['shipping_state'] 	&& 
 		$_POST['shipping_zipcode'] ) {
 		
-		$rates = $store->getUPSRates( $_POST['shipping_name'], $_POST['shipping_name'], '', $_POST['shipping_address1'], $_POST['shipping_city'], $_POST['shipping_state'], $_POST['shipping_zipcode'], 'US', '' );	
+		$rate = $store->getFedexRates( $_POST['shipping_name'], $_POST['shipping_name'], '', $_POST['shipping_address1'], $_POST['shipping_city'], $_POST['shipping_state'], $_POST['shipping_zipcode'], 'US', false );	
 		
-		if( isset( $rates['rates']['Ground']['rate'] ) ) {
+		//$store->getFedexRates( 'Austin Ducworth', '', '864.642.5163', '534 King Street', 'Charleston', 'SC', '29403', 'US', true ) 
 		
-			$_SESSION['shipping_rate'] = $rates['rates']['Ground']['rate'];
+		if( isset( $rate['rate'] ) ) {
+		
+			$_SESSION['shipping_rate'] = $rate['rate'];
 			
 		} else {
 			
