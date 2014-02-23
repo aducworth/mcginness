@@ -28,10 +28,10 @@
         	<td>
         	
         		<div style='border-radius: 50px; width: 100px; height: 100px; background: 
-        		<? if( $r['hex_index'] ): ?>
-        			<?=$r['hex_index'] ?>
-	        	<? elseif( $r['image'] ): ?>
+	        	<? if( $r['image'] ): ?>
 	        		url(<?=$controller->site_url ?>/images/uploads/thumbnails/<?=$r['image'] ?>);
+	        	<? elseif( $r['hex_index'] ): ?>
+        			<?=$r['hex_index'] ?>
 	        	<? endif; ?>
 	        		'>
 	        	</div>
