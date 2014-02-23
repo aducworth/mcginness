@@ -1003,7 +1003,7 @@ class AppController {
 					$size = getimagesize( $this->site_url . '/images/uploads/tmp/' . $_POST['image'] ); 
 														
 					$resizeObj = new resize( $path . 'tmp/' . $_POST['image'] );
-					$resizeObj -> resizeImage( 150, 150, 'crop' );
+					$resizeObj -> resizeImage( 150, 150, 'landscape' );
 					$resizeObj -> saveImage( $path . 'thumbnails/' . $_POST['image'], 100 );
 										
 				} else {
