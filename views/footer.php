@@ -70,6 +70,15 @@
 			
 			$(".gallery-item").colorbox({rel:'gallery-item'});
 			
+			$('#newsletter-signup').submit(function(e){
+			
+				e.preventDefault();
+				
+				alert( 'send' );
+				
+			
+			});
+			
 			$(document).bind('cbox_closed', function() {
 			
 				//$('.side-panel-cart').html( '<p>Loading...</p>' );

@@ -523,16 +523,19 @@
 					if( isNaN( size ) ) {
 						
 						$('.errors').html( '<p>' + ucfirst( tovalidate[i] ) + ' is not a valid number.</p>' );
+						$.colorbox.resize();
 						return false;
 	
 					} else if( limit > 0 && size > 0 && size > limit ) {
 						
 						$('.errors').html( '<p>' + ucfirst( tovalidate[i] ) + ' has a limit of ' + limit + ' for this product.</p>' );
+						$.colorbox.resize();
 						return false;
 						
 					} else if( lower > 0 && size > 0 && size < lower ) {
 						
 						$('.errors').html( '<p>' + ucfirst( tovalidate[i] ) + ' has a minimum of ' + lower + ' for this product.</p>' );
+						$.colorbox.resize();
 						return false;
 						
 					}
