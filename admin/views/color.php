@@ -9,11 +9,25 @@
 <? endif; ?>
 
 <?=$form->textbox( 'name', array( 'label' => 'Name', 'default' => $controller->result['name'], 'class' => 'required' ) ) ?>
-<p><label>Image:</label><input type='file' name='image'/></p>
+<p><label>Default Image:</label><input type='file' name='image'/></p>
 <?=$form->textbox( 'hex_index', array( 'label' => 'Hex ( if no image )', 'default' => $controller->result['hex_index'], 'class' => '' ) ) ?>
 <?=$form->textbox( 'price', array( 'label' => 'Price ( per sqft )', 'default' => $controller->result['price'], 'class' => 'required number' ) ) ?>
 <?=$form->checkbox( 'is_active', array( 1 => 'Active?' ), array( 'label' => false, 'default' => array($controller->result['is_active']), 'class' => '' ) ) ?>
 <?=$form->select( 'display_order', array(), array( 'label' => 'Display Order', 'default' => $controller->result['display_order'], 'class' => 'required', 'empty' => false, 'range' => array( 'lower' => 0, 'upper' => 50 ) ) ) ?>
+
+<h2>Images with Wood Types</h2>
+
+<? foreach( $controller->wood_type_list as $id => $name ): ?>
+	
+	<? if( $controller->result['color_images'][$id] ): ?>
+	
+		<img src='<?=$controller->site_url ?>/images/uploads/thumbnails/<?=$controller->result['color_images'][$id] ?>' class=''/>
+		
+	<? endif; ?>
+
+	<p><label><?=$name ?> Image:</label><input type='file' name='color_images[<?=$id ?>]'/></p>
+
+<? endforeach; ?>
 
 <p class='action-buttons'>
 

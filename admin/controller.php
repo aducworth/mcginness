@@ -40,6 +40,7 @@ class AppController {
 		
 		$this->filepath = getcwd();
 		$this->site_url = 'http://' . str_replace( 'admin.', 'www.', $_SERVER['SERVER_NAME'] );
+		//$this->site_url = 'http://localhost:8888';
 		
 		if( $this->db->connection && $_GET['url'] != 'db_setup' ) {
 							
@@ -572,12 +573,61 @@ class AppController {
 			}
 			
 			if( !$this->message ) {
-				
+			
 				if( $this->db->save( $_POST ) ) {
 				
 					if( !$_POST['id'] ) {
 					
 						$_POST['id'] = mysql_insert_id();
+					
+					}
+					
+					$this->db->table = 'color_images';
+					
+					// try to upload any color images
+					foreach( $_FILES['color_images']['name'] as $id => $name ) {
+					
+						//print_r( $image );
+					
+						if( is_uploaded_file( $_FILES['color_images']['tmp_name'][$id] ) ) {
+					
+							if( $_FILES['color_images']['type'][$id] == 'image/jpeg' ) {
+													
+								$_POST['image'] = time() . $this->clean_filename( $name );
+								
+								//echo( $_POST['image'] );
+								
+								$path = str_replace( 'admin', '', getcwd() ) . 'images/uploads/';
+								
+								move_uploaded_file( $_FILES['color_images']['tmp_name'][$id], $path . 'tmp/' . $_POST['image'] ); 
+								
+								$size = getimagesize( $this->site_url . '/images/uploads/tmp/' . $_POST['image'] ); 
+																	
+								$resizeObj = new resize( $path . 'tmp/' . $_POST['image'] );
+								$resizeObj -> resizeImage( 150, 150, 'crop' );
+								$resizeObj -> saveImage( $path . 'thumbnails/' . $_POST['image'], 100 );
+								
+								// see if there is a current one
+								$current = $this->db->retrieve( 'one', '*', ' where color = ' . $_POST['id'] . ' and wood_type = ' . $id ); 
+								
+								// if there is a current one, remove it
+								if( $current['id'] ) {
+									
+									$this->db->remove( $current['id'] );
+									
+								}
+								
+								// save the image
+								$this->db->save( array( 'color' => $_POST['id'], 'wood_type' => $id, 'image' => $_POST['image'] ) );
+													
+							} else {
+								
+								$this->message = 'Invalid type of image. Please use a jpg.';
+								$_GET['id'] = $_POST['id'];
+								
+							}
+						
+						}
 					
 					}
 																							
@@ -595,6 +645,12 @@ class AppController {
 			$this->db->table = 'colors';
 			
 			$this->result = $this->db->retrieve( 'one', '*', ' where id = ' . $_GET['id'] ); 
+			
+			$this->db->table = 'color_images';
+			
+			$this->result['color_images'] = $this->db->retrieve( 'pair', 'wood_type,image', ' where color = ' . $_GET['id'] ); 
+			
+			//print_r( $this->result['color_images'] );
 														
 		}
 		
