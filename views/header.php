@@ -34,7 +34,7 @@
 				
 			<? endif; ?>
 			
-			<div class='get-in-touch'><span>Get In Touch</span>303.319.3797</div>
+			<div class='get-in-touch'><span>Get In Touch</span>info@boxworkcabinets.com</div>
 		</div>
 		
 	</header>
