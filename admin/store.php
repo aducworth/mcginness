@@ -613,7 +613,7 @@ class Store {
 		
 		$request['RequestedShipment']['RateRequestTypes'] = 'LIST'; 
 		
-		$request['RequestedShipment']['PackageCount'] = 1;
+		$request['RequestedShipment']['PackageCount'] = $this->getPackageCount();
 		
 		$request['RequestedShipment']['PackageDetail'] = 'INDIVIDUAL_PACKAGES';  //  Or PACKAGE_SUMMARY
 				
@@ -632,7 +632,7 @@ class Store {
 					$request['RequestedShipment']['RequestedPackageLineItems'][$count-1] = 
 							array(
 							'SequenceNumber'=>$count,
-							'GroupPackageCount'=>$count,
+							'GroupPackageCount'=>1,
 							'Weight' => array(
 								'Value' 	=> $weight,
 								'Units' 	=> 'LB'
@@ -665,7 +665,7 @@ class Store {
 		
 			$response = $client->getRates($request);
 			
-			//print_r( $response );
+			print_r( $response );
 			
 			    if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR' && !empty($response->RateReplyDetails))
 		    {
@@ -708,6 +708,28 @@ class Store {
 		return array( 'error' => 'Fedex Live Rates Error' );
 	
 	}
+	
+  public function getPackageCount( ) {
+  
+  	  $total_count = 0;
+	  
+	  foreach( $this->product_types as $id => $type ) {
+		
+	  	if( count( $_SESSION['cart'][ $id ] ) > 0 ) {
+	  	
+		  foreach( $_SESSION['cart'][ $id ] as $index => $item ) {
+		  
+		  	$total_count += $item['quantity'];
+		  
+		  }
+		  
+		}
+		
+	 }
+	 
+	 return $total_count;
+	  
+  }
   
   public function getUPSRates( $name, $company, $phone, $street, $city, $state, $zipcode, $country, $residential )
   {
