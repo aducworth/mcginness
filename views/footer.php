@@ -40,25 +40,29 @@
 	
 		var verified_shipping = '';
 		
-		var color_images = [];
+		<? if( $action == 'build' ): ?>
 		
-		<?
-			$current_wood = 0;
-				
-			foreach( $color_images as $ci ):
+			var color_images = [];
 			
-				if( $ci['wood_type']  != $current_wood ): ?>
+			<?
+				$current_wood = 0;
 					
-					color_images[<?=$ci['wood_type'] ?>] = [];
-					
-<?					$current_wood = $ci['wood_type'];
-
-				endif;
-		?>
+				foreach( $color_images as $ci ):
+				
+					if( $ci['wood_type']  != $current_wood ): ?>
+						
+						color_images[<?=$ci['wood_type'] ?>] = [];
+						
+	<?					$current_wood = $ci['wood_type'];
+	
+					endif;
+			?>
+			
+			color_images[<?=$ci['wood_type'] ?>][<?=$ci['color'] ?>] = "<?=$ci['image'] ?>";
+			
+			<?  endforeach; ?>
 		
-		color_images[<?=$ci['wood_type'] ?>][<?=$ci['color'] ?>] = "<?=$ci['image'] ?>";
-		
-		<?  endforeach; ?>
+		<? endif; ?>
 	
 		$(document).ready(function(){
 		
