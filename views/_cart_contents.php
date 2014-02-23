@@ -285,7 +285,7 @@
 					<? if( !$_GET['edit'] ): ?>
 					( <a href='#' id='refresh-rates'>refresh</a> )
 					<? endif; ?>.<br>
-				* Shipping time is 5-10 days via UPS Ground.
+				* Shipping time is 5-10 days via FedEx Ground.
 			</td>
 		</tr>
 	</table>

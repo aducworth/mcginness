@@ -13,7 +13,7 @@
 
 	<div class='container'>
 
-		<img src='/images/about_us.jpg' style='float: right; margin: 20px 0 20px 20px;'/>
+		<img src='/images/boxwork-logo.png' style='float: right; margin: 120px 0 20px 20px;'/>
 		
 		<h1>About Boxwork Cabinets</h1>
 		

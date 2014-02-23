@@ -836,7 +836,7 @@ class Store {
 	  	$shipping_first = trim( substr($shipping_name, 0, strpos($shipping_name,' ')) );
 	  	$shipping_last = trim( substr($shipping_name, strpos($shipping_name,' ')) );
 	  
-	    $url = 'https://demo.myvirtualmerchant.com/VirtualMerchantDemo/process.do';
+	    $url = 'https://www.myvirtualmerchant.com/VirtualMerchantDemo/process.do';
 
 		//Modify the values from xxx to your own account ID, user ID, and PIN
 		
