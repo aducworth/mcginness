@@ -16,7 +16,15 @@
 			
 		?>	
 
-		<img src='/images/base-cabinet.jpg'/>
+		<? if( $profile['image'] ): ?>
+		
+			<img src='/images/uploads/thumbnails/<?=$profile['image'] ?>'/>
+		
+		<? else: ?>
+		
+			<img src='/images/base-cabinet.jpg'/>
+			
+		<? endif; ?>
 		
 		<p><?=$profile['name'] ?></p>
 								
