@@ -71,8 +71,14 @@
 		
 	<? endif; ?>
 	
-	<a href='/cart' class='red-button'>Checkout</a>
+	<? if( $store->store_options['construction_lead_time'] ): ?>
 	
+		<p style='margin: 10px 0;'>*** Current construction lead time is <?=$store->store_options['construction_lead_time'] ?>.</p>
+		
+	<? endif; ?>
+	
+	<a href='/cart' class='red-button'>Checkout</a>
+		
 	<script>
 	
 		$(document).ready(function(){
