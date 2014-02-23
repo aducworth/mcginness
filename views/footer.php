@@ -43,8 +43,6 @@
 		var color_images = [];
 		
 		<?
-			$db->table = 'color_images';
-			$color_images = $db->retrieve('all','*',' order by wood_type');
 			$current_wood = 0;
 				
 			foreach( $color_images as $ci ):

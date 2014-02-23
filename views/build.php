@@ -30,6 +30,18 @@
 	
 	$accessories = $db->retrieve('all','*',' where product_type = 4 order by display_order');
 	
+	$db->table = 'color_images';
+	
+	$color_images = $db->retrieve('all','*',' order by wood_type');
+	
+	$color_images_by_wood = array();
+	
+	foreach( $color_images as $ci ) {
+		
+		$color_images_by_wood[ $ci['wood_type'] ][ $ci['color'] ] = $ci['image'];
+		
+	}
+	
 ?>	
 	
 		<div class='welcome'>
@@ -90,7 +102,21 @@
 					
 					<ul>
 						<? foreach( $colors as $c ): ?>
-							<li class='visible-option'><a href='#' class='stain-color <?=($_SESSION['stain-color'] == $c['id'])?'selected':'' ?>' data-value='<?=$c['id'] ?>'><div class='image-holder' style='<?=$c['image']?('background-image: url(/images/uploads/thumbnails/'.$c['image'].');'):('background-color: ' . $c['hex_index']) ?>'></div><span><?=$c['name'] ?></span></a></li>
+						
+							<? 
+								if( $_SESSION['wood-type'] ) {
+									
+									$image = $color_images_by_wood[ $_SESSION['wood-type'] ][ $c['id'] ];
+									
+								} else {
+									
+									$image = $c['image'];
+									
+								}
+								
+							?>
+							
+							<li class='visible-option'><a href='#' class='stain-color <?=($_SESSION['stain-color'] == $c['id'])?'selected':'' ?>' data-value='<?=$c['id'] ?>'><div class='image-holder' style='<?=$image?('background-image: url(/images/uploads/thumbnails/'.$image.');'):('background-color: ' . $c['hex_index']) ?>'></div><span><?=$c['name'] ?></span></a></li>
 						<? endforeach; ?>
 					</ul>
 					
