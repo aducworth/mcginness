@@ -665,7 +665,7 @@ class Store {
 		
 			$response = $client->getRates($request);
 			
-			print_r( $response );
+			//print_r( $response );
 			
 			    if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR' && !empty($response->RateReplyDetails))
 		    {
