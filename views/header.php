@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Boxwork Custom Cabinets</title>
+		<title>Custom Cabinets | Build Your Kitchen Online | Boxwork Custom Cabinets</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=1020" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
+		<meta name="description" content="custom cabinets, unfinished cabinets, kitchen cabinets, bathroom cabinets, wholesale kitchen cabinets, cabinet boxes" />
+		<meta name="keywords" content="custom cabinets, unfinished cabinets, kitchen cabinets, bathroom cabinets, wholesale kitchen cabinets, cabinet boxes" />
 		<script type="text/javascript" src="//use.typekit.net/wlg7law.js"></script>
 		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	    <style type="text/css" media="all">@import "/css/style.css";</style>
