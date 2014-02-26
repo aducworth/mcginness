@@ -615,7 +615,7 @@ class Store {
 		
 		$request['RequestedShipment']['PackageCount'] = $this->getPackageCount();
 		
-		$request['RequestedShipment']['PackageDetail'] = 'INDIVIDUAL_PACKAGES';  //  Or PACKAGE_SUMMARY
+		$request['RequestedShipment']['PackageDetail'] = 'PACKAGE_SUMMARY';  //  Or PACKAGE_SUMMARY
 				
 	  $count = 1;
 	  
@@ -678,7 +678,7 @@ class Store {
 			    	foreach( $rateReply as $indiv_reply ) {
 			    	
 			    		if( $indiv_reply -> ServiceType == 'GROUND_HOME_DELIVERY' || $indiv_reply -> ServiceType == 'FEDEX_GROUND' )
-			    		return array( 'rate' => $indiv_reply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount );
+			    		return array( 'rate' => $indiv_reply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetFreight->Amount );
 			        
 			        }	
 		
@@ -858,7 +858,7 @@ class Store {
 	  	$shipping_first = trim( substr($shipping_name, 0, strpos($shipping_name,' ')) );
 	  	$shipping_last = trim( substr($shipping_name, strpos($shipping_name,' ')) );
 	  
-	    $url = 'https://www.myvirtualmerchant.com/VirtualMerchantDemo/process.do';
+	    $url = 'https://www.myvirtualmerchant.com/VirtualMerchant/process.do';
 
 		//Modify the values from xxx to your own account ID, user ID, and PIN
 		
@@ -868,13 +868,13 @@ class Store {
 		
 		$fields = array(
 		
-			'ssl_merchant_id'=>'004763',
+			'ssl_merchant_id'=>'647536',
 			
 			//Vi rtualMerchant Developer's Guide.docx Page 138 of 152
 			
 			'ssl_user_id'=>'webpage',
 			
-			'ssl_pin'=>'W1T3CQ',
+			'ssl_pin'=>'504315',
 			
 			'ssl_show_form'=>'false',
 			
@@ -896,8 +896,8 @@ class Store {
 			
 			'ssl_transaction_type'=>urlencode('ccsale'),
 			
-			//'ssl_amount'=>urlencode( $_POST['total'] ),
-			'ssl_amount'=>urlencode( '1.00' ),
+			'ssl_amount'=>urlencode( $_POST['total'] ),
+			//'ssl_amount'=>urlencode( '1.00' ),
 			
 			'ssl_card_number'=>urlencode( $card_no ),
 			
@@ -1087,7 +1087,7 @@ class Store {
 	  
 	  //if( !strstr( $subject, 'configured' ) ) {
 	  
-	  	$headers .= 'Bcc: aducworth@gmail.com'.$eol;
+	  	$headers .= 'Bcc: aducworth@gmail.com, chris@mcwfurniture.com'.$eol;
 		
 	  //}
 

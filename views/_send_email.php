@@ -6,7 +6,7 @@
 	if( $_POST['email'] ) {
 		
 		// send confirmation emails
-		$to = 'aducworth@gmail.com';
+		$to = 'chris@mcwfurniture.com';
 		$subject = 'Newsletter Signup';
 		$body = 'This email has signed up for your newsletter: ' . $_POST['email'];
 		$store->send_mail( $to, $body, $subject, 'store@boxworkcabinets.com', 'Boxwork Store' );
