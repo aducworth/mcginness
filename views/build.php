@@ -4,31 +4,31 @@
 	
 	$db->table = 'wood_types';
 	
-	$wood_types = $db->retrieve('all','*',' order by display_order');
+	$wood_types = $db->retrieve('all','*',' where is_active=1 order by display_order');
 	
 	$db->table = 'colors';
 	
-	$colors = $db->retrieve('all','*',' order by display_order');
+	$colors = $db->retrieve('all','*',' where is_active=1 order by display_order');
 	
 	$db->table = 'profiles';
 	
-	$profiles = $db->retrieve('all','*',' order by display_order');
+	$profiles = $db->retrieve('all','*',' where is_active=1 order by display_order');
 	
 	$db->table = 'products';
 	
-	$base_cabinets = $db->retrieve('all','*',' where product_type = 1 order by display_order');
+	$base_cabinets = $db->retrieve('all','*',' where is_active=1 and product_type = 1 order by display_order');
 	
 	$db->table = 'products';
 	
-	$upper_cabinets = $db->retrieve('all','*',' where product_type = 2 order by display_order');
+	$upper_cabinets = $db->retrieve('all','*',' where is_active=1 and product_type = 2 order by display_order');
 	
 	$db->table = 'products';
 	
-	$specialty_cabinets = $db->retrieve('all','*',' where product_type = 3 order by display_order');
+	$specialty_cabinets = $db->retrieve('all','*',' where is_active=1 and product_type = 3 order by display_order');
 	
 	$db->table = 'products';
 	
-	$accessories = $db->retrieve('all','*',' where product_type = 4 order by display_order');
+	$accessories = $db->retrieve('all','*',' where is_active=1 and product_type = 4 order by display_order');
 	
 	$db->table = 'color_images';
 	
